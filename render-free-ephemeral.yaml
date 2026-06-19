@@ -1,7 +1,11 @@
+# Optional Render Free blueprint.
+# WARNING: Render Free instances do not provide persistent disks, so SQLite data may be lost on redeploy/restart.
+# Use render.yaml with a persistent disk for real production persistence.
 services:
   - type: web
-    name: leadflow-ai
+    name: leadflow-ai-free
     env: node
+    plan: free
     buildCommand: npm run render-build
     startCommand: npm start
     healthCheckPath: /health
@@ -9,19 +13,11 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
       - key: JWT_SECRET
         generateValue: true
       - key: DB_PATH
-        value: /var/data/leadflow.sqlite
+        value: ./data/leadflow.sqlite
       - key: DEFAULT_COUNTRY
         value: US
       - key: EMAIL_QUEUE_DELAY_MS
         value: 2500
-      - key: CORS_ORIGIN
-        value: https://leadflow-ai.onrender.com
-    disks:
-      - name: leadflow-data
-        mountPath: /var/data
-        sizeGB: 1
