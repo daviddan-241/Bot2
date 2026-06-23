@@ -35,7 +35,7 @@ export const env = {
   smtpSecure: bool(process.env.SMTP_SECURE, false),
   smtpUser: process.env.SMTP_USER || '',
   smtpPass: process.env.SMTP_PASS || '',
-  smtpFrom: process.env.SMTP_FROM || 'LeadFlow AI <no-reply@leadflow.local>',
+  smtpFrom: process.env.SMTP_FROM || 'FlowAI <no-reply@leadflow.local>',
   emailQueueDelayMs: Number(process.env.EMAIL_QUEUE_DELAY_MS || 2500),
 
   whatsappAccessToken: process.env.WHATSAPP_ACCESS_TOKEN || '',

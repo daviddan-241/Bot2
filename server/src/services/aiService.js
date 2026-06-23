@@ -46,7 +46,7 @@ async function callGroq(prompt, system = '', cfg = aiConfig()) {
   const response = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
     model: cfg.groqModel,
     messages: [
-      { role: 'system', content: system || 'You are LeadFlow AI, a precise B2B CRM assistant.' },
+      { role: 'system', content: system || 'You are FlowAI, a precise B2B CRM assistant.' },
       { role: 'user', content: prompt }
     ],
     temperature: 0.35,
@@ -170,7 +170,7 @@ export async function analyzeCompany(userId, input) {
 
 export async function chat(userId, messages = []) {
   const recent = messages.slice(-12).map((m) => `${m.role}: ${m.content}`).join('\n');
-  const system = 'You are LeadFlow AI assistant inside a CRM. Help with lead generation, scoring, campaigns, and outreach. Keep advice practical and compliant.';
+  const system = 'You are FlowAI assistant inside a CRM. Help with lead generation, scoring, campaigns, and outreach. Keep advice practical and compliant.';
   try {
     const { text, provider } = await generateText(recent, system, userId);
     return { provider, message: text };

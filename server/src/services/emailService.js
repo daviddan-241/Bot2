@@ -12,7 +12,7 @@ function siteEmailConfig(userId) {
     return {
       source: 'site:gmail_oauth',
       method: 'gmail_oauth',
-      from: cfg.smtpFrom || `LeadFlow AI <${cfg.gmailAddress}>`,
+      from: cfg.smtpFrom || `FlowAI <${cfg.gmailAddress}>`,
       gmailAddress: cfg.gmailAddress,
       googleClientId: cfg.googleClientId,
       googleClientSecret: cfg.googleClientSecret,
@@ -29,7 +29,7 @@ function siteEmailConfig(userId) {
       secure: Boolean(cfg.smtpSecure === true || cfg.smtpSecure === 'true'),
       user: cfg.smtpUser,
       pass: cfg.smtpPass,
-      from: cfg.smtpFrom || `LeadFlow AI <${cfg.smtpUser}>`,
+      from: cfg.smtpFrom || `FlowAI <${cfg.smtpUser}>`,
     };
   }
   if (env.smtpHost && env.smtpUser && env.smtpPass) {

@@ -61,10 +61,10 @@ router.get('/gmail/oauth/callback', asyncHandler(async (req, res) => {
       gmailAccessToken: tokens.access_token,
       gmailRefreshToken: tokens.refresh_token || cfg.gmailRefreshToken,
       gmailTokenExpiry: tokens.expires_in ? Date.now() + Number(tokens.expires_in) * 1000 : null,
-      smtpFrom: cfg.smtpFrom || (gmailAddress ? `LeadFlow AI <${gmailAddress}>` : undefined),
+      smtpFrom: cfg.smtpFrom || (gmailAddress ? `FlowAI <${gmailAddress}>` : undefined),
       connectedAt: new Date().toISOString()
     });
-    return res.send(oauthHtml('Gmail connected', `LeadFlow AI can now send real email from ${gmailAddress || 'your Gmail account'} using Google OAuth.`, true));
+    return res.send(oauthHtml('Gmail connected', `FlowAI can now send real email from ${gmailAddress || 'your Gmail account'} using Google OAuth.`, true));
   } catch (err) {
     const message = err.response?.data?.error_description || err.response?.data?.error || err.message;
     return res.status(400).send(oauthHtml('Google connection failed', message, false));
@@ -122,7 +122,7 @@ router.post('/:provider/test', asyncHandler(async (req, res) => {
   const provider = req.params.provider;
   if (provider === 'email') {
     const to = req.body?.to || req.user.email;
-    const result = await sendEmail({ userId: req.user.id, to, subject: 'LeadFlow AI email connection test', text: 'This is a real test email sent by your LeadFlow AI connection.' });
+    const result = await sendEmail({ userId: req.user.id, to, subject: 'FlowAI email connection test', text: 'This is a real test email sent by your FlowAI connection.' });
     return res.json(result);
   }
   if (provider === 'search') {

@@ -124,6 +124,6 @@ export function whatsappHealth(userId) {
     businessNumber: cfg.businessNumber || null,
     note: configured(cfg.accessToken) && configured(cfg.phoneNumberId)
       ? 'Official WhatsApp Cloud API is connected.'
-      : 'Connect Meta WhatsApp Cloud API in Connections. Without it, LeadFlow creates real wa.me click-to-chat links only.'
+      : 'Connect Meta WhatsApp Cloud API in Connections. Without it, FlowAI creates real wa.me click-to-chat links only.'
   };
 }

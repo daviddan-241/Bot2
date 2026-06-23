@@ -3,7 +3,7 @@ import { env } from '../config/env.js';
 import { cleanText } from '../utils/sanitize.js';
 import { getConnection, configured } from './connectionService.js';
 
-const USER_AGENT = 'LeadFlowAI/1.0 (legal business discovery; contact: local-user)';
+const USER_AGENT = 'FlowAIAI/1.0 (legal business discovery; contact: local-user)';
 
 function searchConfig(userId) {
   const cfg = userId ? (getConnection(userId, 'search') || {}) : {};

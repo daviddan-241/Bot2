@@ -6,7 +6,7 @@ migrate();
 
 const email = process.env.SEED_EMAIL;
 const password = process.env.SEED_PASSWORD;
-const name = process.env.SEED_NAME || 'LeadFlow Owner';
+const name = process.env.SEED_NAME || 'FlowAI Owner';
 
 if (!email || !password) {
   console.log('No seed account created. This production build does not insert demo/mock leads. Register from the UI, or run with SEED_EMAIL and SEED_PASSWORD to create an owner account.');

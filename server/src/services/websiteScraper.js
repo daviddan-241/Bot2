@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio';
 import robotsParser from 'robots-parser';
 import { cleanText } from '../utils/sanitize.js';
 
-const USER_AGENT = 'LeadFlowAI/1.0 (+https://leadflow.local; respects robots.txt)';
+const USER_AGENT = 'FlowAIAI/1.0 (+https://leadflow.local; respects robots.txt)';
 const EMAIL_REGEX = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
 const PHONE_REGEX = /(\+?\d[\d\s().-]{7,}\d)/g;
 
