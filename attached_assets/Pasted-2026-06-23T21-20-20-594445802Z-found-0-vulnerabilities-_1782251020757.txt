@@ -1,0 +1,50 @@
+2026-06-23T21:20:20.594445802Z found 0 vulnerabilities
+2026-06-23T21:20:20.735400099Z 
+2026-06-23T21:20:20.73542199Z > leadflow-ai@1.0.0 install:all
+2026-06-23T21:20:20.735426231Z > npm --prefix server install && npm --prefix client install
+2026-06-23T21:20:20.735428811Z 
+2026-06-23T21:21:23.060654535Z 
+2026-06-23T21:21:23.060688087Z added 166 packages, and audited 167 packages in 1m
+2026-06-23T21:21:23.060706808Z 
+2026-06-23T21:21:23.060778033Z 47 packages are looking for funding
+2026-06-23T21:21:23.060826786Z   run `npm fund` for details
+2026-06-23T21:21:23.061723256Z 
+2026-06-23T21:21:23.061731987Z found 0 vulnerabilities
+2026-06-23T21:21:25.752142471Z 
+2026-06-23T21:21:25.752165562Z added 74 packages, and audited 75 packages in 3s
+2026-06-23T21:21:25.752176333Z 
+2026-06-23T21:21:25.752308752Z 10 packages are looking for funding
+2026-06-23T21:21:25.752367015Z   run `npm fund` for details
+2026-06-23T21:21:25.753218903Z 
+2026-06-23T21:21:25.753225873Z found 0 vulnerabilities
+2026-06-23T21:21:25.875962656Z 
+2026-06-23T21:21:25.875985778Z > leadflow-ai@1.0.0 build
+2026-06-23T21:21:25.875990688Z > npm --prefix client run build
+2026-06-23T21:21:25.875994588Z 
+2026-06-23T21:21:25.972346207Z 
+2026-06-23T21:21:25.972371119Z > leadflow-ai-client@1.0.0 build
+2026-06-23T21:21:25.972377779Z > vite build
+2026-06-23T21:21:25.97238322Z 
+2026-06-23T21:21:26.155668054Z vite v6.4.3 building for production...
+2026-06-23T21:21:26.212970587Z transforming...
+2026-06-23T21:21:26.22149885Z ✓ 2 modules transformed.
+2026-06-23T21:21:26.221818442Z ✗ Build failed in 43ms
+2026-06-23T21:21:26.221888266Z error during build:
+2026-06-23T21:21:26.221896417Z [vite:css] Failed to load PostCSS config (searchPath: /opt/render/project/src/client): [Error] Loading PostCSS Plugin failed: Cannot find module 'tailwindcss'
+2026-06-23T21:21:26.221901427Z Require stack:
+2026-06-23T21:21:26.221906178Z - /opt/render/project/src/client/postcss.config.js
+2026-06-23T21:21:26.221909878Z 
+2026-06-23T21:21:26.221913708Z (@/opt/render/project/src/client/postcss.config.js)
+2026-06-23T21:21:26.221920259Z Error: Loading PostCSS Plugin failed: Cannot find module 'tailwindcss'
+2026-06-23T21:21:26.221924259Z Require stack:
+2026-06-23T21:21:26.221928139Z - /opt/render/project/src/client/postcss.config.js
+2026-06-23T21:21:26.221931869Z 
+2026-06-23T21:21:26.22194831Z (@/opt/render/project/src/client/postcss.config.js)
+2026-06-23T21:21:26.221954081Z     at load (file:///opt/render/project/src/client/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:11776:11)
+2026-06-23T21:21:26.221957421Z     at async Promise.all (index 0)
+2026-06-23T21:21:26.221960651Z     at async plugins (file:///opt/render/project/src/client/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:11805:12)
+2026-06-23T21:21:26.221963201Z     at async processResult (file:///opt/render/project/src/client/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:11876:14)
+2026-06-23T21:21:26.221966722Z file: /opt/render/project/src/client/index.html?html-proxy&inline-css&index=0.css
+2026-06-23T21:21:26.221969062Z 
+2026-06-23T21:21:26.294955329Z ==> Build failed 😞
+2026-06-23T21:21:26.294977221Z ==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys

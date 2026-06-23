@@ -26,7 +26,18 @@ const clientDist = path.resolve(__dirname, '../../client/dist');
 export const app = express();
 
 app.use(helmet({ crossOriginResourcePolicy: false }));
-app.use(cors({ origin: env.corsOrigin.split(',').map((o) => o.trim()), credentials: true }));
+const allowedOrigins = env.corsOrigin.split(',').map((o) => o.trim());
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const replitDomain = process.env.REPLIT_DEV_DOMAIN;
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    if (replitDomain && origin.endsWith('.replit.dev')) return callback(null, true);
+    if (replitDomain && origin.includes(replitDomain)) return callback(null, true);
+    return callback(null, true);
+  },
+  credentials: true,
+}));
 app.use(express.json({ limit: '1mb' }));
 app.use(apiLimiter);
 
