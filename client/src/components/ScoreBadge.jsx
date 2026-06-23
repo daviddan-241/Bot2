@@ -1,9 +1,15 @@
 export default function ScoreBadge({ score = 0, label }) {
   const resolved = label || (score >= 80 ? 'Hot' : score >= 50 ? 'Warm' : 'Cold');
   const styles = {
-    Hot: 'bg-emerald-50 text-emerald-700 ring-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:ring-emerald-500/20',
-    Warm: 'bg-amber-50 text-amber-700 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-300 dark:ring-amber-500/20',
-    Cold: 'bg-slate-100 text-slate-600 ring-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-white/10'
+    Hot:  { background: 'rgba(16,185,129,.12)', color: '#34d399', border: '1px solid rgba(16,185,129,.2)' },
+    Warm: { background: 'rgba(245,158,11,.12)', color: '#fbbf24', border: '1px solid rgba(245,158,11,.2)' },
+    Cold: { background: 'rgba(148,163,184,.1)', color: '#94a3b8', border: '1px solid rgba(148,163,184,.15)' },
   };
-  return <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold ring-1 ${styles[resolved] || styles.Cold}`}><span>{score}</span>{resolved}</span>;
+  const s = styles[resolved] || styles.Cold;
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold" style={s}>
+      <span className="tabular-nums">{score}</span>
+      <span>{resolved}</span>
+    </span>
+  );
 }

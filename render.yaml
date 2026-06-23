@@ -1,11 +1,11 @@
 services:
   - type: web
-    name: leadflow-ai
+    name: flowai
     env: node
     buildCommand: npm run render-build
     startCommand: npm start
     healthCheckPath: /health
-    autoDeploy: false
+    autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
@@ -14,14 +14,14 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: DB_PATH
-        value: /var/data/leadflow.sqlite
+        value: /var/data/flowai.sqlite
       - key: DEFAULT_COUNTRY
         value: US
       - key: EMAIL_QUEUE_DELAY_MS
         value: 2500
       - key: CORS_ORIGIN
-        value: https://leadflow-ai.onrender.com
+        value: https://flowai.onrender.com
     disks:
-      - name: leadflow-data
+      - name: flowai-data
         mountPath: /var/data
-        sizeGB: 1
+        sizeGB: 2

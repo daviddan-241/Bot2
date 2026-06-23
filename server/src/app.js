@@ -17,6 +17,7 @@ import whatsappRoutes from './routes/whatsappRoutes.js';
 import emailRoutes from './routes/emailRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import connectionRoutes from './routes/connectionRoutes.js';
+import mvpRoutes from './routes/mvpRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,7 +30,7 @@ app.use(cors({ origin: env.corsOrigin.split(',').map((o) => o.trim()), credentia
 app.use(express.json({ limit: '1mb' }));
 app.use(apiLimiter);
 
-app.get('/health', (_req, res) => res.json({ status: 'ok', name: 'LeadFlow AI API', time: new Date().toISOString() }));
+app.get('/health', (_req, res) => res.json({ status: 'ok', name: 'FlowAI API', time: new Date().toISOString() }));
 app.use('/', authRoutes);
 app.use('/dashboard', authRequired, dashboardRoutes);
 app.use('/leads', authRequired, leadRoutes);
@@ -38,6 +39,7 @@ app.use('/campaigns', authRequired, campaignRoutes);
 app.use('/whatsapp', authRequired, whatsappRoutes);
 app.use('/email', authRequired, emailRoutes);
 app.use('/connections', connectionRoutes);
+app.use('/mvp', authRequired, mvpRoutes);
 
 if (env.nodeEnv === 'production' && fs.existsSync(clientDist)) {
   app.use(express.static(clientDist));

@@ -50,7 +50,7 @@ async function callGroq(prompt, system = '', cfg = aiConfig()) {
       { role: 'user', content: prompt }
     ],
     temperature: 0.35,
-    max_tokens: 900
+    max_tokens: 2048
   }, { headers: { Authorization: `Bearer ${cfg.groqApiKey}`, 'Content-Type': 'application/json' }, timeout: 30000 });
   const text = response.data?.choices?.[0]?.message?.content;
   if (!text) throw new Error('Groq returned no text');

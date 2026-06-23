@@ -1,110 +1,255 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Bot, Check, Mail, MapPinned, Play, Sparkles, Workflow } from 'lucide-react';
+import { ArrowRight, Bot, Code2, Mail, MapPin, Sparkles, Zap, Check, ChevronRight, Star } from 'lucide-react';
 
-function AppPreview() {
-  const rows = [
-    ['Live discovery', 'API results only', 'Google Places / OSM / Search APIs'],
-    ['Website enrichment', 'Public pages only', 'robots.txt respected'],
-    ['Outreach routing', 'Official channels', 'Gmail/SMTP + WhatsApp Cloud/API links'],
-  ];
+const FEATURES = [
+  {
+    icon: MapPin, label: 'Lead Discovery',
+    title: 'Find real leads worldwide',
+    desc: 'Search Google Places, Serper, Brave, Bing, and OpenStreetMap. Every result is a real business with real contact data — no mocked records.',
+    color: '#5c67ff',
+  },
+  {
+    icon: Bot, label: 'AI Assistant',
+    title: 'Powered by real AI',
+    desc: 'Chat with Groq (Llama 3), HuggingFace, or local Ollama. Score leads, write outreach, generate proposals — all real AI, not templates.',
+    color: '#7c3aed',
+  },
+  {
+    icon: Code2, label: 'MVP Generator',
+    title: 'Generate web project proposals',
+    desc: 'Describe your MVP idea and get a full technical proposal, feature list, tech stack, timeline, and pricing — ready to send to clients.',
+    color: '#06b6d4',
+  },
+  {
+    icon: Mail, label: 'Email Outreach',
+    title: 'Connect real Gmail or SMTP',
+    desc: 'OAuth into Gmail or connect SMTP. Real email delivery with delay controls, AI-personalized copy, and delivery tracking.',
+    color: '#10b981',
+  },
+];
+
+const STATS = [
+  { value: '100%', label: 'Real data sources' },
+  { value: 'Free', label: 'Tools & APIs used' },
+  { value: 'AI', label: 'Powered scoring' },
+  { value: 'Global', label: 'Lead coverage' },
+];
+
+function FeatureCard({ icon: Icon, label, title, desc, color, delay = 0 }) {
   return (
-    <div className="relative mx-auto max-w-5xl rounded-[34px] border border-white/15 bg-slate-950/95 p-3 shadow-[0_40px_140px_rgba(15,23,42,.45)]">
-      <div className="overflow-hidden rounded-[26px] border border-white/10 bg-[#080d19]">
-        <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-          <div className="flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-red-400"/><span className="h-3 w-3 rounded-full bg-amber-400"/><span className="h-3 w-3 rounded-full bg-emerald-400"/></div>
-          <div className="rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-bold text-slate-300">leadflow.ai/app</div>
-        </div>
-        <div className="grid gap-4 p-4 lg:grid-cols-[240px_1fr]">
-          <aside className="hidden rounded-3xl border border-white/10 bg-white/[.03] p-4 lg:block">
-            <div className="mb-5 flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-2xl bg-blue-600 font-black text-white">LF</div><div><p className="text-sm font-black text-white">LeadFlow</p><p className="text-xs text-slate-500">Real-source CRM</p></div></div>
-            {['Command', 'Discover', 'Campaigns', 'Connections'].map((x, i) => <div key={x} className={`mb-2 rounded-2xl px-4 py-3 text-sm font-bold ${i === 0 ? 'bg-white text-slate-950' : 'text-slate-400'}`}>{x}</div>)}
-          </aside>
-          <main className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-3">
-              {[
-                ['Sources', 'Live APIs', 'no mock records'],
-                ['Coverage', 'Worldwide', 'America, Europe, etc.'],
-                ['Sending', 'Official', 'no fake delivery'],
-              ].map(([a,b,c]) => <div key={a} className="rounded-3xl border border-white/10 bg-white/[.04] p-4"><p className="text-xs font-bold uppercase tracking-wide text-slate-500">{a}</p><p className="mt-2 text-2xl font-black text-white">{b}</p><p className="mt-1 text-xs text-emerald-300">{c}</p></div>)}
-            </div>
-            <div className="grid gap-4 lg:grid-cols-[1.15fr_.85fr]">
-              <div className="rounded-3xl border border-white/10 bg-white/[.04] p-4">
-                <div className="mb-4 flex items-center justify-between"><h4 className="font-black text-white">Real lead pipeline</h4><span className="rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-300">provider-backed</span></div>
-                <div className="space-y-3">{rows.map(([name, status, detail]) => <div key={name} className="flex items-center justify-between gap-3 rounded-2xl bg-white/[.04] p-3"><div><p className="font-bold text-white">{name}</p><p className="text-xs text-slate-500">{detail}</p></div><div className="rounded-full bg-blue-500/15 px-3 py-1 text-xs font-black text-blue-200">{status}</div></div>)}</div>
-              </div>
-              <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-blue-600 to-indigo-600 p-5 text-white">
-                <Sparkles className="mb-4"/>
-                <p className="text-xl font-black">Global workflow</p>
-                <p className="mt-2 text-sm leading-6 text-blue-100">Choose America + Europe, Europe, North America, Africa, Asia Pacific, Latin America, Middle East, Oceania, or custom locations.</p>
-                <div className="mt-5 space-y-2 text-sm font-bold">{['Real APIs only', 'Public-site enrichment', 'Human-safe outreach'].map((x) => <div key={x} className="flex items-center gap-2"><Check size={16}/> {x}</div>)}</div>
-              </div>
-            </div>
-          </main>
-        </div>
+    <div className="rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 group"
+      style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
+      <div className="h-11 w-11 rounded-xl flex items-center justify-center mb-5"
+        style={{ background: `${color}15`, border: `1px solid ${color}25` }}>
+        <Icon size={20} color={color} />
       </div>
+      <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color }}>{label}</p>
+      <h3 className="text-lg font-bold text-white mb-2">{title}</h3>
+      <p className="text-sm leading-relaxed text-slate-400">{desc}</p>
     </div>
   );
 }
 
-function Step({ number, tag, title, text, icon: Icon }) {
+function ChatPreview() {
+  const msgs = [
+    { role: 'user', text: 'Find dental clinics in Austin TX and score them' },
+    { role: 'ai', text: 'Found 14 real dental clinics via Google Places & OpenStreetMap. Top lead: Smile Care Austin — score 84/100 (Hot). Website verified, email extracted. Ready to add to campaign?', provider: 'Groq Llama 3' },
+    { role: 'user', text: 'Yes, add to email campaign and draft outreach' },
+    { role: 'ai', text: 'Added 14 leads to "Austin Dental Q1" campaign. AI-personalized emails drafted using clinic name and specialty. Subject: "Quick question about [ClinicName]\'s new patient flow"', provider: 'Groq Llama 3' },
+  ];
+
   return (
-    <div className="rounded-[30px] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-slate-900">
-      <div className="mb-5 flex items-center justify-between"><span className="text-4xl font-black text-slate-200 dark:text-white/10">{number}</span><div className="grid h-12 w-12 place-items-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-300"><Icon/></div></div>
-      <p className="text-xs font-black uppercase tracking-[.22em] text-blue-600">{tag}</p>
-      <h3 className="mt-3 text-2xl font-black text-slate-950 dark:text-white">{title}</h3>
-      <p className="mt-3 text-sm leading-7 text-slate-500 dark:text-slate-400">{text}</p>
+    <div className="rounded-2xl overflow-hidden" style={{ background: '#0d0d1a', border: '1px solid rgba(255,255,255,.08)' }}>
+      <div className="flex items-center gap-2 px-4 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,.06)' }}>
+        <div className="h-7 w-7 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#5c67ff,#7c3aed)' }}>
+          <Bot size={13} color="white"/>
+        </div>
+        <span className="text-sm font-semibold text-white">FlowAI Assistant</span>
+        <div className="ml-auto flex items-center gap-1.5">
+          <div className="h-1.5 w-1.5 rounded-full bg-emerald-400"/>
+          <span className="text-[10px] text-emerald-400 font-medium">Live</span>
+        </div>
+      </div>
+      <div className="p-4 space-y-3">
+        {msgs.map((m, i) => (
+          <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
+              m.role === 'user'
+                ? 'text-white' : 'text-slate-300'}`}
+              style={m.role === 'user'
+                ? { background: 'rgba(92,103,255,.25)', border: '1px solid rgba(92,103,255,.3)' }
+                : { background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
+              {m.text}
+              {m.provider && <p className="mt-1.5 text-[9px] font-semibold uppercase tracking-wider" style={{ color: '#a5b0ff', opacity: 0.7 }}>{m.provider}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen overflow-hidden bg-[#f7f8fb] text-slate-950 dark:bg-[#080d19] dark:text-white">
-      <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/75 backdrop-blur-2xl dark:border-white/10 dark:bg-[#080d19]/75">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-          <Link to="/" className="flex items-center gap-3"><div className="grid h-11 w-11 place-items-center rounded-2xl bg-blue-600 text-sm font-black text-white shadow-glow">LF</div><div><p className="font-black leading-4">LeadFlow AI</p><p className="text-xs text-slate-500">Lead engine</p></div></Link>
-          <nav className="hidden items-center gap-6 text-sm font-bold text-slate-600 dark:text-slate-300 md:flex"><a href="#features">How it works</a><a href="#agent">Agent</a><a href="#deployment">Deployment</a></nav>
-          <div className="flex items-center gap-2"><Link to="/login" className="btn-secondary !rounded-full">Login</Link><Link to="/login" className="btn-primary !rounded-full">Get started</Link></div>
+    <div className="min-h-screen min-h-dvh overflow-hidden" style={{ background: '#0A0A14', color: '#fff' }}>
+
+      {/* Nav */}
+      <header className="sticky top-0 z-50 flex items-center justify-between px-5 py-4"
+        style={{ background: 'rgba(10,10,20,.85)', backdropFilter: 'blur(24px)', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
+        <div className="flex items-center gap-2.5">
+          <div className="h-9 w-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#5c67ff,#7c3aed)', boxShadow: '0 4px 14px rgba(92,103,255,.4)' }}>
+            <svg viewBox="0 0 24 24" fill="none" width="17" height="17">
+              <path d="M12 3 L20 18 L12 14 L4 18 Z" fill="white" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <span className="text-sm font-bold text-white">FlowAI</span>
+        </div>
+        <nav className="hidden md:flex items-center gap-6 text-sm text-slate-400">
+          <a href="#features" className="hover:text-white transition-colors">Features</a>
+          <a href="#ai" className="hover:text-white transition-colors">AI Chat</a>
+          <a href="#generator" className="hover:text-white transition-colors">MVP Generator</a>
+        </nav>
+        <div className="flex items-center gap-2">
+          <Link to="/login" className="btn-secondary text-xs px-3 py-2">Sign in</Link>
+          <Link to="/login" className="btn-primary text-xs px-3 py-2">Get started free</Link>
         </div>
       </header>
 
-      <section className="relative px-4 pb-16 pt-16 sm:pt-24">
-        <div className="absolute left-1/2 top-0 h-[620px] w-[620px] -translate-x-1/2 rounded-full bg-blue-500/20 blur-3xl" />
-        <div className="relative mx-auto max-w-7xl text-center">
-          <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[.18em] text-blue-700 shadow-sm dark:border-blue-500/20 dark:bg-white/5 dark:text-blue-300"><Sparkles size={14}/> AI-powered lead intelligence</div>
-          <h1 className="mx-auto max-w-5xl text-5xl font-black tracking-[-.06em] text-slate-950 dark:text-white sm:text-7xl lg:text-8xl">Find leads and launch outreach without spreadsheet chaos.</h1>
-          <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">LeadFlow discovers businesses through legal APIs, enriches public websites, scores buying fit with AI, and prepares email + WhatsApp outreach from one clean command center.</p>
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row"><Link to="/login" className="btn-primary !rounded-full !px-6 !py-3">Start building pipeline <ArrowRight size={18}/></Link><a href="#features" className="btn-secondary !rounded-full !px-6 !py-3"><Play size={18}/> See how it works</a></div>
-          <div className="mt-14"><AppPreview /></div>
+      {/* Hero */}
+      <section className="relative px-5 pt-16 pb-20 text-center">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle, #5c67ff 0%, transparent 70%)', filter: 'blur(60px)' }}/>
+          <div className="absolute top-20 left-1/4 w-[300px] h-[300px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #7c3aed 0%, transparent 70%)', filter: 'blur(80px)' }}/>
+        </div>
+
+        <div className="relative mx-auto max-w-4xl">
+          <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 mb-7 text-xs font-semibold"
+            style={{ background: 'rgba(92,103,255,.1)', border: '1px solid rgba(92,103,255,.25)', color: '#a5b0ff' }}>
+            <Sparkles size={11}/> AI-powered · 100% real data · Completely free
+          </div>
+
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-6 leading-[1.05]">
+            Find leads, close deals,
+            <br />
+            <span style={{ background: 'linear-gradient(135deg, #5c67ff 0%, #a78bfa 50%, #06b6d4 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              build products.
+            </span>
+          </h1>
+
+          <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed mb-10">
+            FlowAI combines real lead generation, AI-powered outreach, and an MVP project generator into one mobile-first platform. Every feature uses free, real tools — no mocks, no simulations.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link to="/login" className="btn-primary px-6 py-3 text-base w-full sm:w-auto">
+              Start for free <ArrowRight size={18}/>
+            </Link>
+            <a href="#features" className="btn-secondary px-6 py-3 text-base w-full sm:w-auto">
+              See all features
+            </a>
+          </div>
+
+          {/* Stats row */}
+          <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto">
+            {STATS.map(({ value, label }) => (
+              <div key={label} className="rounded-xl py-3 px-4 text-center" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                <p className="text-xl font-black text-white">{value}</p>
+                <p className="text-[10px] text-slate-500 mt-0.5">{label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section id="features" className="mx-auto max-w-7xl px-4 py-20">
-        <div className="mb-10 max-w-2xl"><p className="text-sm font-black uppercase tracking-[.22em] text-blue-600">How it works</p><h2 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">From search to pipeline in minutes</h2></div>
-        <div className="grid gap-5 md:grid-cols-3">
-          <Step number="01" tag="Find" icon={MapPinned} title="Business discovery" text="Use Google Places, Serper, Brave, Bing, or free OpenStreetMap discovery to find real businesses by niche and location." />
-          <Step number="02" tag="Engage" icon={Mail} title="Outreach campaigns" text="Generate personalized email and WhatsApp copy, then send through connected SMTP/Gmail or official WhatsApp Cloud API." />
-          <Step number="03" tag="Convert" icon={Workflow} title="Scored workflows" text="Every lead is cleaned, enriched, scored, and routed into campaigns with delay controls and delivery tracking." />
+      {/* AI Chat preview */}
+      <section id="ai" className="px-5 py-16 max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#7c3aed' }}>Real AI Chat</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-5 leading-tight">
+              An AI assistant that actually works
+            </h2>
+            <p className="text-slate-400 text-sm leading-relaxed mb-7">
+              Powered by Groq (Llama 3.1) and HuggingFace — both free. Ask it to find leads, score contacts, write personalized emails, or generate full project proposals. Real AI, real results.
+            </p>
+            <div className="space-y-3">
+              {['Find businesses in any city worldwide', 'Score leads with AI + rule engine', 'Write personalized outreach copy', 'Generate MVP proposals on demand'].map(item => (
+                <div key={item} className="flex items-center gap-3 text-sm text-slate-300">
+                  <div className="h-5 w-5 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(92,103,255,.2)' }}>
+                    <Check size={11} color="#a5b0ff"/>
+                  </div>
+                  {item}
+                </div>
+              ))}
+            </div>
+            <Link to="/login" className="btn-primary mt-8 inline-flex">
+              Try AI chat free <ChevronRight size={16}/>
+            </Link>
+          </div>
+          <div><ChatPreview /></div>
         </div>
       </section>
 
-      <section id="agent" className="mx-auto max-w-7xl px-4 py-14">
-        <div className="grid items-center gap-8 rounded-[40px] border border-slate-200 bg-white p-6 shadow-soft dark:border-white/10 dark:bg-slate-900 lg:grid-cols-[1fr_.8fr] lg:p-10">
-          <div><p className="text-sm font-black uppercase tracking-[.22em] text-blue-600">Meet the agent</p><h2 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Lead generation on autopilot, with human approval.</h2><p className="mt-5 max-w-2xl text-sm leading-8 text-slate-500 dark:text-slate-400">Ask for prospects in plain language. LeadFlow searches legal sources, enriches websites, explains lead scores, writes messages, and queues outreach with guardrails.</p><div className="mt-6 grid gap-3 sm:grid-cols-3">{['AI search brief', 'Smart scoring', 'Real integrations'].map((x) => <div key={x} className="rounded-2xl bg-slate-50 p-4 text-sm font-black dark:bg-white/5"><Check className="mb-2 text-emerald-500" size={18}/>{x}</div>)}</div></div>
-          <div className="relative"><div className="mx-auto grid aspect-square max-w-sm place-items-center rounded-[42px] bg-gradient-to-br from-blue-600 via-indigo-600 to-slate-950 p-8 text-center text-white shadow-glow"><Bot size={68}/><div><p className="mt-5 text-2xl font-black">Agent LeadFlow</p><p className="mt-2 text-sm leading-6 text-blue-100">“Find clinics across America + Europe and draft compliant outreach.”</p></div></div></div>
+      {/* Features grid */}
+      <section id="features" className="px-5 py-16 max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#5c67ff' }}>Everything included</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-white">All the tools you need, all free</h2>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {FEATURES.map((f, i) => <FeatureCard key={f.label} {...f} delay={i * 80}/>)}
         </div>
       </section>
 
-      <section id="deployment" className="mx-auto max-w-7xl px-4 py-20">
-        <div className="mb-10 text-center"><p className="text-sm font-black uppercase tracking-[.22em] text-blue-600">Production setup</p><h2 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Connect real providers, then deploy</h2></div>
-        <div className="grid gap-5 md:grid-cols-3">{[
-          ['Real discovery', 'Provider-backed', ['OpenStreetMap/Overpass', 'Google Places API', 'Serper / Brave / Bing']],
-          ['Real outreach', 'Official channels', ['Gmail OAuth or SMTP', 'Meta WhatsApp Cloud API', 'wa.me manual-send fallback']],
-          ['Render-ready', 'Persistent SaaS', ['SQLite persistent disk', 'JWT user isolation', 'Encrypted connections']],
-        ].map(([name, mode, items], i) => <div key={name} className={`rounded-[30px] border p-6 ${i === 1 ? 'border-blue-300 bg-blue-600 text-white shadow-glow' : 'border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900'}`}><p className="text-lg font-black">{name}</p><p className="mt-3 text-2xl font-black">{mode}</p><div className="mt-6 space-y-3 text-sm">{items.map((x) => <p key={x} className="flex items-center gap-2"><Check size={16}/> {x}</p>)}</div></div>)}</div>
+      {/* MVP Generator section */}
+      <section id="generator" className="px-5 py-16 max-w-5xl mx-auto">
+        <div className="rounded-2xl p-8 sm:p-10 relative overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, rgba(92,103,255,.15) 0%, rgba(124,58,237,.1) 100%)', border: '1px solid rgba(92,103,255,.2)' }}>
+          <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, #5c67ff 0%, transparent 70%)', filter: 'blur(40px)' }}/>
+          <div className="relative">
+            <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 mb-5 text-xs font-semibold" style={{ background: 'rgba(92,103,255,.2)', color: '#a5b0ff' }}>
+              <Code2 size={12}/> New Feature
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">MVP Project Generator</h2>
+            <p className="text-slate-300 text-sm leading-relaxed max-w-2xl mb-8">
+              Describe your project idea and get a complete proposal: feature breakdown, tech stack recommendation, 8-week timeline, pricing estimate, and a full pitch deck ready to send to clients or investors.
+            </p>
+            <div className="grid sm:grid-cols-3 gap-3 mb-8">
+              {['AI-generated proposal', 'Tech stack recommendations', 'Pricing & timeline'].map(item => (
+                <div key={item} className="flex items-center gap-2 text-sm text-slate-300" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)', borderRadius: 12, padding: '12px 14px' }}>
+                  <Zap size={14} color="#a5b0ff"/>{item}
+                </div>
+              ))}
+            </div>
+            <Link to="/login" className="btn-primary">Generate your MVP proposal <ArrowRight size={16}/></Link>
+          </div>
+        </div>
       </section>
 
-      <footer className="border-t border-slate-200 bg-white px-4 py-10 dark:border-white/10 dark:bg-[#080d19]"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 sm:flex-row sm:items-center"><p className="font-black">LeadFlow AI</p><p className="text-sm text-slate-500">Original Squibb-inspired design. No copied assets, no fake provider results.</p><Link to="/login" className="btn-primary !rounded-full">Open app</Link></div></footer>
+      {/* CTA */}
+      <section className="px-5 py-16 text-center max-w-2xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Ready to build your pipeline?</h2>
+        <p className="text-slate-400 text-sm mb-8">Join today. Everything is free — real leads, real AI, real outreach.</p>
+        <Link to="/login" className="btn-primary px-8 py-3 text-base">
+          Get started free <ArrowRight size={18}/>
+        </Link>
+      </section>
+
+      {/* Footer */}
+      <footer className="px-5 py-8" style={{ borderTop: '1px solid rgba(255,255,255,.06)' }}>
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <div className="h-7 w-7 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#5c67ff,#7c3aed)' }}>
+              <svg viewBox="0 0 24 24" fill="none" width="13" height="13">
+                <path d="M12 3 L20 18 L12 14 L4 18 Z" fill="white"/>
+              </svg>
+            </div>
+            <span className="text-sm font-bold text-white">FlowAI</span>
+          </div>
+          <p className="text-xs text-slate-500">Real data · Real AI · No mocks · Free tools only</p>
+          <Link to="/login" className="btn-secondary text-xs">Open app</Link>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -10,10 +10,23 @@ import CampaignsPage from './pages/CampaignsPage.jsx';
 import AIPage from './pages/AIPage.jsx';
 import ConnectionsPage from './pages/ConnectionsPage.jsx';
 import LandingPage from './pages/LandingPage.jsx';
+import MVPGeneratorPage from './pages/MVPGeneratorPage.jsx';
 
 function Protected({ children }) {
   const { user, loading } = useAuth();
-  if (loading) return <div className="grid min-h-screen place-items-center bg-slate-50 text-slate-500 dark:bg-slate-950">Loading LeadFlow AI…</div>;
+  if (loading) return (
+    <div className="min-h-screen min-h-dvh flex items-center justify-center" style={{ background: '#0A0A14' }}>
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-10 w-10 rounded-xl flex items-center justify-center animate-pulse"
+          style={{ background: 'linear-gradient(135deg,#5c67ff,#7c3aed)' }}>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+            <path d="M12 3 L20 18 L12 14 L4 18 Z" fill="white"/>
+          </svg>
+        </div>
+        <p className="text-sm text-slate-500">Loading FlowAI…</p>
+      </div>
+    </div>
+  );
   if (!user) return <Navigate to="/login" replace />;
   return <Layout>{children}</Layout>;
 }
@@ -30,6 +43,7 @@ export default function App() {
       <Route path="/scraper" element={<Protected><ScraperPage /></Protected>} />
       <Route path="/campaigns" element={<Protected><CampaignsPage /></Protected>} />
       <Route path="/ai" element={<Protected><AIPage /></Protected>} />
+      <Route path="/generate" element={<Protected><MVPGeneratorPage /></Protected>} />
       <Route path="/connections" element={<Protected><ConnectionsPage /></Protected>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
