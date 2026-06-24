@@ -6,8 +6,26 @@ import { env } from '../config/env.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const resolvedDbPath = path.isAbsolute(env.dbPath) ? env.dbPath : path.resolve(__dirname, '../../', env.dbPath);
-fs.mkdirSync(path.dirname(resolvedDbPath), { recursive: true });
+
+function resolveDbPath(dbPath) {
+  const absolute = path.isAbsolute(dbPath)
+    ? dbPath
+    : path.resolve(__dirname, '../../', dbPath);
+  try {
+    fs.mkdirSync(path.dirname(absolute), { recursive: true });
+    return absolute;
+  } catch (err) {
+    if (err.code === 'EACCES') {
+      const fallback = path.resolve(__dirname, '../../data/leadflow.sqlite');
+      console.warn(`[db] Cannot write to ${path.dirname(absolute)} (${err.code}), falling back to ${fallback}`);
+      fs.mkdirSync(path.dirname(fallback), { recursive: true });
+      return fallback;
+    }
+    throw err;
+  }
+}
+
+const resolvedDbPath = resolveDbPath(env.dbPath);
 
 export const db = new Database(resolvedDbPath);
 db.pragma('journal_mode = WAL');
