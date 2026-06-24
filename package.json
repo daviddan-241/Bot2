@@ -1,17 +1,43 @@
 {
   "name": "leadflow-ai",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "description": "LeadFlow AI - Apollo-style AI CRM, lead generation and outreach automation platform",
   "scripts": {
-    "dev": "concurrently \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
-    "install:all": "npm --prefix server install && npm --prefix client install",
-    "start": "npm --prefix server start",
-    "build": "npm --prefix client run build",
-    "render-build": "npm install && npm run install:all && npm run build"
+    "dev": "concurrently \"node server/src/server.js\" \"vite --config client/vite.config.js\"",
+    "start": "node server/src/server.js",
+    "build": "vite build --config client/vite.config.js"
+  },
+  "dependencies": {
+    "axios": "^1.18.1",
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.7.0",
+    "cheerio": "^1.2.0",
+    "concurrently": "^9.2.3",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.2",
+    "express-rate-limit": "^7.5.1",
+    "helmet": "^8.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "libphonenumber-js": "^1.13.7",
+    "nodemailer": "^9.0.1",
+    "robots-parser": "^3.0.1",
+    "validator": "^13.15.35",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "lucide-react": "^0.468.0",
+    "nodemon": "^3.1.14",
+    "postcss": "^8.4.49",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.1",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.0.7"
   },
   "overrides": {
     "shell-quote": "^1.8.4"
