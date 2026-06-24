@@ -1,261 +1,351 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Bot, Check, Code2, Mail, MapPin, MessageCircle, Sparkles, Zap } from 'lucide-react';
+import { ArrowRight, Bot, Check, Code2, Mail, MessageCircle, Search, Sparkles, TrendingUp, Users, Zap } from 'lucide-react';
+import Logo from '../components/Logo.jsx';
 
 const FEATURES = [
   {
-    icon: MapPin, color: '#6366f1',
+    icon: Search, color: '#2563EB',
     title: 'Real lead discovery',
-    desc: 'Google Places, OpenStreetMap, Serper, Brave Search. Every result is a real business with real contact data.',
+    desc: 'Finds actual businesses with real contact data — names, emails, websites, and phone numbers — from Google, Serper, Brave, and more.',
   },
   {
-    icon: Bot, color: '#8b5cf6',
-    title: 'AI powered by Groq',
-    desc: 'Llama 3.1 via Groq — completely free. Score leads, write outreach, chat, generate proposals.',
+    icon: Bot, color: '#7C3AED',
+    title: 'AI-powered by Groq',
+    desc: 'Type a command like "Find urgent leads in Lagos" and the AI finds leads, scores them, and creates campaigns automatically.',
   },
   {
-    icon: Code2, color: '#06b6d4',
-    title: 'MVP project generator',
-    desc: 'Describe your idea. Get a full tech proposal, timeline, feature list, and pricing ready to send.',
+    icon: Code2, color: '#0891B2',
+    title: 'MVP web generator',
+    desc: 'Describe any project and get a full HTML/CSS proposal, feature list, timeline, and pricing — ready to send to a client.',
   },
   {
-    icon: Mail, color: '#10b981',
-    title: 'Gmail OAuth campaigns',
-    desc: 'Connect your Gmail account and send real personalized outreach to your leads at scale.',
+    icon: Mail, color: '#16A34A',
+    title: 'Real Gmail campaigns',
+    desc: 'Connect your Gmail or Outlook in one click (OAuth). Send personalized emails to all your leads at scale.',
   },
   {
-    icon: MessageCircle, color: '#f59e0b',
-    title: 'WhatsApp integration',
-    desc: 'Meta Cloud API for real sends, or wa.me click-to-chat links — always real, never simulated.',
+    icon: MessageCircle, color: '#D97706',
+    title: 'WhatsApp outreach',
+    desc: 'Meta Cloud API for real sends, or wa.me click-to-chat links. Reach leads on WhatsApp directly from your dashboard.',
   },
   {
-    icon: Zap, color: '#ec4899',
-    title: 'AI lead scoring',
-    desc: 'Rule-based engine plus Groq AI refinement. Every lead gets a Hot / Warm / Cold score instantly.',
+    icon: TrendingUp, color: '#DC2626',
+    title: 'Auto lead scoring',
+    desc: 'Every lead is instantly scored Hot / Warm / Cold using AI + a rule engine. Focus only on leads ready to buy.',
   },
 ];
 
-const PROOF = [
+const STATS = [
   { n: '100%', label: 'Real data' },
   { n: 'Free', label: 'All tools' },
   { n: 'AI', label: 'Powered' },
   { n: '0', label: 'Mock data' },
 ];
 
-const PLANS = [
+const HOW_IT_WORKS = [
   {
-    name: 'Free forever',
-    price: '$0',
-    period: 'always',
-    features: ['Real lead discovery', 'AI chat (Groq free)', 'MVP generator', 'WhatsApp links', '25 leads / search'],
-    cta: 'Get started free',
-    highlight: false,
+    step: '01',
+    title: 'Tell the AI what you need',
+    desc: 'Type: "Find 20 restaurants in Dubai that urgently need a website." The AI understands your intent.',
   },
   {
-    name: 'Pro',
-    price: '$0',
-    period: 'self-hosted',
-    features: ['Unlimited lead discovery', 'Gmail OAuth campaigns', 'WhatsApp Cloud API', 'Unlimited AI messages', 'Full source code'],
-    cta: 'Fork on GitHub',
-    highlight: true,
+    step: '02',
+    title: 'AI finds and scores leads',
+    desc: 'Real search APIs pull actual businesses. The AI scores each one for buying urgency — Hot, Warm, or Cold.',
+  },
+  {
+    step: '03',
+    title: 'Campaigns run automatically',
+    desc: 'FlowAI creates a personalized outreach campaign and sends emails or WhatsApp messages to every hot lead.',
   },
 ];
 
 export default function LandingPage() {
   return (
-    <div style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100dvh', fontFamily: "-apple-system,'SF Pro Display','Inter',sans-serif" }}>
+    <div style={{ background: '#FFFFFF', color: 'var(--text)', minHeight: '100dvh', fontFamily: "'Inter', -apple-system, sans-serif" }}>
 
       {/* ── Nav ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 sm:px-8"
         style={{
           paddingTop: 'max(16px, env(safe-area-inset-top, 16px))',
           paddingBottom: 14,
-          background: 'rgba(8,8,15,0.82)',
+          background: 'rgba(255,255,255,0.92)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderBottom: '0.5px solid rgba(255,255,255,.07)',
+          borderBottom: '1px solid var(--border)',
         }}>
-        <div className="flex items-center gap-2.5">
-          <div style={{
-            width: 30, height: 30, borderRadius: 8,
-            background: 'linear-gradient(135deg,#6366f1,#8b5cf6)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 4px 12px rgba(99,102,241,.35)',
-          }}>
-            <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
-              <rect x="3" y="3" width="4.5" height="14" rx="1.2" fill="white"/>
-              <rect x="3" y="3" width="14" height="4.5" rx="1.2" fill="white"/>
-              <rect x="3" y="8.5" width="10" height="3.5" rx="1.2" fill="white" opacity="0.8"/>
-            </svg>
-          </div>
-          <span className="text-[15px] font-black text-white tracking-tight">FlowAI</span>
-        </div>
+        <Logo size={30} textSize="text-[15px]"/>
 
-        <div className="hidden sm:flex items-center gap-6">
-          <a href="#features" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Features</a>
-          <a href="#pricing" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Pricing</a>
-          <Link to="/ai" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">AI Chat</Link>
+        <div className="hidden sm:flex items-center gap-7">
+          <a href="#features" className="text-sm font-medium hover:text-[var(--brand)] transition-colors" style={{ color: 'var(--text-2)' }}>Features</a>
+          <a href="#how" className="text-sm font-medium hover:text-[var(--brand)] transition-colors" style={{ color: 'var(--text-2)' }}>How it works</a>
+          <a href="#pricing" className="text-sm font-medium hover:text-[var(--brand)] transition-colors" style={{ color: 'var(--text-2)' }}>Pricing</a>
         </div>
 
         <div className="flex items-center gap-2">
-          <Link to="/login" className="text-sm font-semibold text-slate-300 hover:text-white transition-colors px-3 py-2">
+          <Link to="/login" className="text-sm font-semibold px-4 py-2 rounded-xl transition-colors hover:bg-[var(--surface-2)]" style={{ color: 'var(--text-2)' }}>
             Sign in
           </Link>
           <Link to="/login?register=1"
-            className="text-sm font-semibold text-white rounded-xl px-4 py-2.5"
-            style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', boxShadow: '0 4px 12px rgba(99,102,241,.3)' }}>
-            Get started
+            className="text-sm font-semibold text-white rounded-xl px-4 py-2.5 flex items-center gap-1.5"
+            style={{ background: 'var(--brand)', boxShadow: '0 1px 2px rgba(37,99,235,.3)' }}>
+            Get started <ArrowRight size={14}/>
           </Link>
         </div>
       </nav>
 
       {/* ── Hero ── */}
-      <section className="flex flex-col items-center text-center px-5 pt-36 pb-24 relative overflow-hidden">
-        {/* Background glow */}
+      <section className="flex flex-col items-center text-center px-5 pt-36 pb-20 relative overflow-hidden"
+        style={{ background: 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 100%)' }}>
         <div style={{
-          position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)',
-          width: 600, height: 600, borderRadius: '50%',
-          background: 'radial-gradient(circle,rgba(99,102,241,.12) 0%,transparent 70%)',
+          position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+          width: 800, height: 400,
+          background: 'radial-gradient(ellipse at top, rgba(37,99,235,.07) 0%, transparent 70%)',
           pointerEvents: 'none',
         }}/>
 
-        <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-8 text-xs font-semibold"
-            style={{ background: 'rgba(99,102,241,.1)', border: '1px solid rgba(99,102,241,.2)', color: '#a5b4fc' }}>
-            <Sparkles size={12}/>
-            AI-powered · 100% real data · Completely free
+        <div className="animate-fade-in mb-6">
+          <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold"
+            style={{ background: 'var(--brand-light)', color: 'var(--brand)', border: '1px solid rgba(37,99,235,.15)' }}>
+            <Sparkles size={12}/> AI-powered · 100% real data · Completely free
           </div>
         </div>
 
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight max-w-4xl animate-fade-up"
-          style={{ animationDelay: '0.15s' }}>
-          Find leads,{' '}
-          <span style={{ background: 'linear-gradient(135deg,#6366f1,#a78bfa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            close deals,
-          </span>
+          style={{ animationDelay: '0.1s', color: 'var(--text)', letterSpacing: '-0.03em' }}>
+          Automatically find leads
           <br/>
-          <span style={{ color: '#e2e8f0' }}>build products.</span>
+          <span style={{ color: 'var(--brand)' }}>and send emails.</span>
+          <br/>
+          <span style={{ color: 'var(--text-2)', fontSize: '0.85em', fontWeight: 800 }}>Zero guesswork.</span>
         </h1>
 
-        <p className="mt-6 text-lg text-slate-400 max-w-xl leading-relaxed animate-fade-up" style={{ animationDelay: '0.22s' }}>
-          FlowAI combines real lead generation, AI-powered outreach, and an MVP project generator into one mobile-first platform. Every feature uses free, real tools.
+        <p className="mt-6 text-lg max-w-xl leading-relaxed animate-fade-up" style={{ animationDelay: '0.18s', color: 'var(--text-2)' }}>
+          FlowAI's AI chat finds businesses that <strong style={{ color: 'var(--text)' }}>urgently need your services</strong>, scores them in real-time, and sends personalized outreach — all automatically.
         </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center gap-3 animate-fade-up" style={{ animationDelay: '0.28s' }}>
+        <div className="mt-10 flex flex-col sm:flex-row items-center gap-3 animate-fade-up" style={{ animationDelay: '0.24s' }}>
           <Link to="/login?register=1"
             className="flex items-center gap-2 rounded-2xl px-7 py-4 text-base font-bold text-white"
-            style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', boxShadow: '0 8px 24px rgba(99,102,241,.35)' }}>
+            style={{ background: 'var(--brand)', boxShadow: '0 4px 20px rgba(37,99,235,.3)' }}>
             Start for free <ArrowRight size={18}/>
           </Link>
-          <a href="#features"
-            className="flex items-center gap-2 rounded-2xl px-7 py-4 text-base font-semibold text-slate-300"
-            style={{ background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.08)' }}>
-            See all features
+          <a href="#how"
+            className="flex items-center gap-2 rounded-2xl px-7 py-4 text-base font-semibold"
+            style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-2)', boxShadow: '0 1px 3px rgba(0,0,0,.06)' }}>
+            How it works
           </a>
         </div>
 
-        {/* Stats row */}
-        <div className="mt-16 grid grid-cols-4 gap-3 sm:gap-6 w-full max-w-lg animate-fade-up" style={{ animationDelay: '0.35s' }}>
-          {PROOF.map(({ n, label }) => (
+        {/* Stats */}
+        <div className="mt-16 grid grid-cols-4 gap-3 w-full max-w-lg animate-fade-up" style={{ animationDelay: '0.3s' }}>
+          {STATS.map(({ n, label }) => (
             <div key={label} className="rounded-2xl py-4 text-center"
-              style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
-              <p className="text-xl font-black text-white">{n}</p>
-              <p className="text-[11px] text-slate-500 mt-0.5">{label}</p>
+              style={{ background: 'var(--surface)', border: '1px solid var(--border)', boxShadow: '0 1px 3px rgba(0,0,0,.05)' }}>
+              <p className="text-xl font-black" style={{ color: 'var(--text)' }}>{n}</p>
+              <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-3)' }}>{label}</p>
             </div>
           ))}
+        </div>
+
+        {/* App preview mockup */}
+        <div className="mt-16 w-full max-w-4xl rounded-2xl overflow-hidden animate-fade-up"
+          style={{ animationDelay: '0.38s', border: '1px solid var(--border)', boxShadow: '0 20px 60px rgba(0,0,0,.08)', background: 'var(--bg)' }}>
+          <div className="flex items-center gap-2 px-4 py-3" style={{ background: '#F1F5F9', borderBottom: '1px solid var(--border)' }}>
+            <div className="h-3 w-3 rounded-full bg-red-400"/>
+            <div className="h-3 w-3 rounded-full bg-yellow-400"/>
+            <div className="h-3 w-3 rounded-full bg-green-400"/>
+            <div className="flex-1 mx-4 rounded-lg h-6 flex items-center justify-center text-xs" style={{ background: 'var(--surface)', color: 'var(--text-3)', border: '1px solid var(--border)' }}>
+              app.flowai.io
+            </div>
+          </div>
+          <div className="p-6">
+            <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text-2)' }}>Welcome back,</p>
+            <p className="text-xs mb-5" style={{ color: 'var(--text-3)' }}>Here's your outreach performance</p>
+            <div className="grid grid-cols-3 gap-3 mb-4">
+              {[{ l: 'EMAILS SENT', v: '5,029', t: '+36.3%' }, { l: 'OPENED', v: '3,987', t: '' }, { l: 'REPLIED', v: '3,260', t: '' }].map(({ l, v, t }) => (
+                <div key={l} className="rounded-xl p-3" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+                  <p className="text-[9px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-3)' }}>{l}</p>
+                  <p className="text-xl font-black" style={{ color: 'var(--text)' }}>{v}</p>
+                  {t && <p className="text-[10px] font-semibold mt-0.5" style={{ color: 'var(--success)' }}>{t}</p>}
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              {[{ l: 'ACTIVE CAMPAIGNS', v: '89' }, { l: 'LEADS FOUND', v: '6,346' }, { l: 'CREDITS AVAILABLE', v: '2,443' }].map(({ l, v }) => (
+                <div key={l} className="rounded-xl p-3" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+                  <p className="text-[9px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-3)' }}>{l}</p>
+                  <p className="text-xl font-black" style={{ color: 'var(--text)' }}>{v}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── How it works ── */}
+      <section id="how" className="px-5 sm:px-8 py-20 max-w-5xl mx-auto">
+        <div className="text-center mb-14">
+          <p className="text-xs font-bold uppercase tracking-[.2em] mb-3" style={{ color: 'var(--brand)' }}>How it works</p>
+          <h2 className="text-3xl sm:text-4xl font-black" style={{ color: 'var(--text)', letterSpacing: '-0.03em' }}>
+            Just tell the AI what you want.
+          </h2>
+          <p className="mt-3 text-lg max-w-lg mx-auto" style={{ color: 'var(--text-2)' }}>
+            No configuration, no manual searching. One message starts the whole pipeline.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {HOW_IT_WORKS.map(({ step, title, desc }) => (
+            <div key={step} className="rounded-2xl p-6" style={{ background: 'var(--surface)', border: '1px solid var(--border)', boxShadow: '0 1px 3px rgba(0,0,0,.05)' }}>
+              <div className="h-10 w-10 rounded-2xl flex items-center justify-center mb-4 text-sm font-black"
+                style={{ background: 'var(--brand-light)', color: 'var(--brand)' }}>
+                {step}
+              </div>
+              <h3 className="text-base font-bold mb-2" style={{ color: 'var(--text)' }}>{title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-2)' }}>{desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* AI chat preview */}
+        <div className="mt-10 rounded-2xl p-5 sm:p-6" style={{ background: 'var(--surface)', border: '1px solid var(--border)', boxShadow: '0 1px 3px rgba(0,0,0,.05)' }}>
+          <div className="flex items-center gap-3 mb-4 pb-4" style={{ borderBottom: '1px solid var(--border)' }}>
+            <div className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'var(--brand)' }}>
+              <Bot size={15} color="white"/>
+            </div>
+            <div>
+              <p className="text-sm font-bold" style={{ color: 'var(--text)' }}>FlowAI Chat</p>
+              <p className="text-xs" style={{ color: 'var(--success)' }}>● Live · Powered by Groq</p>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <div className="flex justify-end">
+              <div className="rounded-2xl rounded-br-sm px-4 py-2.5 text-sm max-w-xs"
+                style={{ background: 'var(--brand)', color: 'white' }}>
+                Find 10 restaurants in Lagos that urgently need a website and create an outreach campaign
+              </div>
+            </div>
+            <div className="flex gap-2.5 max-w-md">
+              <div className="h-7 w-7 rounded-xl flex items-center justify-center shrink-0 mt-0.5" style={{ background: 'var(--brand)' }}>
+                <Bot size={13} color="white"/>
+              </div>
+              <div className="rounded-2xl rounded-bl-sm px-4 py-3 text-sm" style={{ background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--text-2)', lineHeight: 1.6 }}>
+                <strong style={{ color: 'var(--text)' }}>Found 10 restaurants in Lagos. 🔥 4 Hot leads, 3 Warm, 3 Cold.</strong>
+                <br/>I've created campaign "Lagos Restaurant Outreach" and queued 4 emails to your hottest leads. Connect Gmail to send now.
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ── Features ── */}
-      <section id="features" className="px-5 sm:px-8 pb-24 max-w-5xl mx-auto">
-        <div className="text-center mb-12">
-          <p className="text-xs font-bold uppercase tracking-[.2em] text-[#6366f1] mb-3">Everything you need</p>
-          <h2 className="text-3xl sm:text-4xl font-black text-white">Built on real tools.<br/>Zero paid APIs.</h2>
+      <section id="features" className="px-5 sm:px-8 py-20 max-w-5xl mx-auto"
+        style={{ borderTop: '1px solid var(--border)' }}>
+        <div className="text-center mb-14">
+          <p className="text-xs font-bold uppercase tracking-[.2em] mb-3" style={{ color: 'var(--brand)' }}>Everything you need</p>
+          <h2 className="text-3xl sm:text-4xl font-black" style={{ color: 'var(--text)', letterSpacing: '-0.03em' }}>
+            Built on real tools.<br/>Zero paid APIs required.
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {FEATURES.map(({ icon: Icon, color, title, desc }) => (
-            <div key={title}
-              className="rounded-2xl p-5 transition-all duration-200"
-              style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
-              <div className="h-11 w-11 rounded-xl flex items-center justify-center mb-4"
-                style={{ background: `${color}15`, border: `1px solid ${color}22` }}>
-                <Icon size={20} color={color}/>
+            <div key={title} className="rounded-2xl p-5 transition-all hover:shadow-lifted"
+              style={{ background: 'var(--surface)', border: '1px solid var(--border)', boxShadow: '0 1px 3px rgba(0,0,0,.04)' }}>
+              <div className="h-10 w-10 rounded-xl flex items-center justify-center mb-4"
+                style={{ background: `${color}12` }}>
+                <Icon size={19} color={color}/>
               </div>
-              <h3 className="text-base font-bold text-white mb-1.5">{title}</h3>
-              <p className="text-sm text-slate-400 leading-6">{desc}</p>
+              <h3 className="text-base font-bold mb-1.5" style={{ color: 'var(--text)' }}>{title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-2)' }}>{desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── Mobile CTA ── */}
-      <section className="px-5 pb-24 max-w-2xl mx-auto text-center">
-        <div className="rounded-3xl p-8 sm:p-10 relative overflow-hidden"
-          style={{ background: 'linear-gradient(135deg,rgba(99,102,241,.15),rgba(139,92,246,.15))', border: '1px solid rgba(99,102,241,.2)' }}>
-          <div style={{
-            position: 'absolute', inset: 0, borderRadius: 24,
-            background: 'radial-gradient(circle at 50% 0%,rgba(99,102,241,.15),transparent 70%)',
-            pointerEvents: 'none',
-          }}/>
+      {/* ── Add to Home Screen CTA ── */}
+      <section className="px-5 py-16 max-w-2xl mx-auto">
+        <div className="rounded-3xl p-8 sm:p-10 text-center relative overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, #EFF6FF 0%, #F0F7FF 100%)', border: '1px solid rgba(37,99,235,.15)' }}>
           <div className="inline-flex h-14 w-14 rounded-2xl items-center justify-center mb-5"
-            style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', boxShadow: '0 8px 24px rgba(99,102,241,.4)' }}>
-            <svg viewBox="0 0 20 20" fill="none" width="28" height="28">
-              <rect x="3" y="3" width="5.5" height="14" rx="1.5" fill="white"/>
-              <rect x="3" y="3" width="14" height="5.5" rx="1.5" fill="white"/>
-              <rect x="3" y="9" width="10.5" height="4" rx="1.5" fill="white" opacity="0.8"/>
-            </svg>
+            style={{ background: 'var(--brand)', boxShadow: '0 8px 24px rgba(37,99,235,.3)' }}>
+            <Logo size={28} showText={false} white/>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">Add to your home screen.</h2>
-          <p className="text-slate-400 mb-7 leading-relaxed">FlowAI is a mobile-first PWA. Add it to your iPhone home screen for a native app experience — no App Store required.</p>
+          <h2 className="text-2xl sm:text-3xl font-black mb-3" style={{ color: 'var(--text)', letterSpacing: '-0.03em' }}>Add to your Home Screen.</h2>
+          <p className="mb-7 leading-relaxed" style={{ color: 'var(--text-2)' }}>
+            FlowAI is a mobile-first PWA. Add it to your iPhone home screen for a full native app experience — no App Store needed.
+          </p>
           <Link to="/login?register=1"
             className="inline-flex items-center gap-2 rounded-2xl px-8 py-4 text-base font-bold text-white"
-            style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', boxShadow: '0 8px 24px rgba(99,102,241,.35)' }}>
+            style={{ background: 'var(--brand)', boxShadow: '0 4px 20px rgba(37,99,235,.3)' }}>
             Start free — no card needed <ArrowRight size={18}/>
           </Link>
         </div>
       </section>
 
       {/* ── Pricing ── */}
-      <section id="pricing" className="px-5 sm:px-8 pb-28 max-w-3xl mx-auto">
-        <div className="text-center mb-12">
-          <p className="text-xs font-bold uppercase tracking-[.2em] text-[#6366f1] mb-3">Pricing</p>
-          <h2 className="text-3xl sm:text-4xl font-black text-white">Always free.<br/>No credit card.</h2>
+      <section id="pricing" className="px-5 sm:px-8 py-20 max-w-3xl mx-auto"
+        style={{ borderTop: '1px solid var(--border)' }}>
+        <div className="text-center mb-14">
+          <p className="text-xs font-bold uppercase tracking-[.2em] mb-3" style={{ color: 'var(--brand)' }}>Pricing</p>
+          <h2 className="text-3xl sm:text-4xl font-black" style={{ color: 'var(--text)', letterSpacing: '-0.03em' }}>
+            Always free.<br/>No credit card.
+          </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-4">
-          {PLANS.map(({ name, price, period, features, cta, highlight }) => (
-            <div key={name}
-              className="rounded-2xl p-6 relative"
+        <div className="grid sm:grid-cols-2 gap-5">
+          {[
+            {
+              name: 'Free forever',
+              price: '$0',
+              period: 'always',
+              features: ['Real lead discovery', 'AI chat (Groq free)', 'MVP generator', 'WhatsApp links', '25 leads / search'],
+              cta: 'Get started free',
+              href: '/login?register=1',
+              highlight: false,
+            },
+            {
+              name: 'Pro (Self-hosted)',
+              price: '$0',
+              period: 'self-hosted',
+              features: ['Unlimited lead discovery', 'Gmail OAuth campaigns', 'WhatsApp Cloud API', 'Unlimited AI messages', 'Auto pipeline'],
+              cta: 'Fork on GitHub',
+              href: '#',
+              highlight: true,
+            },
+          ].map(({ name, price, period, features, cta, href, highlight }) => (
+            <div key={name} className="rounded-2xl p-6 relative"
               style={highlight
-                ? { background: 'rgba(99,102,241,.08)', border: '1px solid rgba(99,102,241,.3)', boxShadow: '0 0 0 1px rgba(99,102,241,.15), 0 16px 48px rgba(99,102,241,.12)' }
-                : { background: 'var(--surface)', border: '1px solid var(--border)' }
+                ? { background: 'var(--brand)', boxShadow: '0 8px 30px rgba(37,99,235,.3)', border: '1px solid var(--brand)' }
+                : { background: 'var(--surface)', border: '1px solid var(--border)', boxShadow: '0 1px 3px rgba(0,0,0,.05)' }
               }>
               {highlight && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="rounded-full px-4 py-1 text-xs font-bold text-white"
-                    style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)' }}>
-                    Open source
+                  <span className="rounded-full px-4 py-1 text-xs font-bold bg-white" style={{ color: 'var(--brand)' }}>
+                    Most popular
                   </span>
                 </div>
               )}
-              <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">{name}</p>
+              <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: highlight ? 'rgba(255,255,255,.7)' : 'var(--text-3)' }}>{name}</p>
               <div className="flex items-baseline gap-1 mb-1">
-                <span className="text-4xl font-black text-white">{price}</span>
-                <span className="text-slate-400 text-sm">/ {period}</span>
+                <span className="text-4xl font-black" style={{ color: highlight ? 'white' : 'var(--text)' }}>{price}</span>
+                <span className="text-sm" style={{ color: highlight ? 'rgba(255,255,255,.6)' : 'var(--text-3)' }}>/ {period}</span>
               </div>
               <ul className="mt-5 space-y-2.5 mb-6">
                 {features.map(f => (
-                  <li key={f} className="flex items-center gap-2.5 text-sm text-slate-300">
-                    <Check size={14} className="text-emerald-400 shrink-0"/>
+                  <li key={f} className="flex items-center gap-2.5 text-sm"
+                    style={{ color: highlight ? 'rgba(255,255,255,.85)' : 'var(--text-2)' }}>
+                    <Check size={14} className="shrink-0" color={highlight ? 'rgba(255,255,255,.9)' : '#16A34A'}/>
                     {f}
                   </li>
                 ))}
               </ul>
-              <Link to={highlight ? 'https://github.com/daviddan-241/Bot2' : '/login?register=1'}
+              <Link to={href}
                 className="block text-center rounded-xl py-3 text-sm font-bold transition-all"
                 style={highlight
-                  ? { background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', color: 'white', boxShadow: '0 4px 12px rgba(99,102,241,.3)' }
-                  : { background: 'rgba(255,255,255,.07)', color: 'white', border: '1px solid rgba(255,255,255,.1)' }
+                  ? { background: 'rgba(255,255,255,.15)', color: 'white', border: '1px solid rgba(255,255,255,.25)' }
+                  : { background: 'var(--brand)', color: 'white', boxShadow: '0 1px 2px rgba(37,99,235,.3)' }
                 }>
                 {cta}
               </Link>
@@ -265,17 +355,10 @@ export default function LandingPage() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="border-t text-center py-8 px-5 text-sm text-slate-600"
-        style={{ borderColor: 'rgba(255,255,255,.06)', paddingBottom: 'max(32px, env(safe-area-inset-bottom, 32px))' }}>
+      <footer className="border-t text-center py-8 px-5 text-sm"
+        style={{ borderColor: 'var(--border)', color: 'var(--text-3)', paddingBottom: 'max(32px, env(safe-area-inset-bottom, 32px))' }}>
         <div className="flex items-center justify-center gap-2 mb-3">
-          <div style={{ width: 20, height: 20, borderRadius: 5, background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg viewBox="0 0 20 20" fill="none" width="12" height="12">
-              <rect x="3" y="3" width="5" height="14" rx="1.2" fill="white"/>
-              <rect x="3" y="3" width="14" height="5" rx="1.2" fill="white"/>
-              <rect x="3" y="8.5" width="10" height="3.5" rx="1.2" fill="white" opacity="0.8"/>
-            </svg>
-          </div>
-          <span className="font-bold text-slate-400">FlowAI</span>
+          <Logo size={20} textSize="text-sm"/>
         </div>
         <p>Free & open · Real tools only · No paid APIs required</p>
       </footer>

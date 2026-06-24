@@ -1,0 +1,4 @@
+- [Squibb.ai design tokens](squibb-design.md) — white/blue light theme: --brand #2563EB, --bg #F8FAFC, --surface #FFFFFF. NO dark mode.
+- [Vite proxy bypass](vite-proxy-bypass.md) — bypass fn needed to prevent navigation GET requests being proxied to Express on same-path routes.
+- [Auto-pipeline](auto-pipeline.md) — /ai/auto-pipeline endpoint triggers automationService.js: parse command → searchBusinesses → createLead → createCampaign → addLeadsToCampaign.
+- [Monorepo root deps](monorepo-deps.md) — All deps at root package.json only. start.js uses direct binary paths (no .bin symlinks). server/ and client/ have no local node_modules.

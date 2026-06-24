@@ -21,6 +21,12 @@ services:
         value: 2500
       - key: CORS_ORIGIN
         value: https://flowai.onrender.com
+      - key: GROQ_API_KEY
+        sync: false
+      - key: SERPER_API_KEY
+        sync: false
+      - key: BRAVE_SEARCH_API_KEY
+        sync: false
     disks:
       - name: flowai-data
         mountPath: /var/data

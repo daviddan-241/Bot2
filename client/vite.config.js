@@ -2,9 +2,15 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 const API_ROUTES = [
-  '/health', '/login', '/register', '/dashboard', '/leads',
-  '/ai', '/campaigns', '/whatsapp', '/email', '/connections', '/mvp',
+  '/health', '/login', '/register', '/me', '/logout',
+  '/dashboard', '/leads', '/ai', '/campaigns',
+  '/whatsapp', '/email', '/connections', '/mvp', '/scraper',
 ];
+
+function isNavigationRequest(req) {
+  const accept = req.headers?.accept || '';
+  return accept.includes('text/html');
+}
 
 export default defineConfig({
   plugins: [react()],
@@ -15,7 +21,14 @@ export default defineConfig({
     proxy: Object.fromEntries(
       API_ROUTES.map((route) => [
         route,
-        { target: 'http://localhost:3001', changeOrigin: true },
+        {
+          target: 'http://localhost:3001',
+          changeOrigin: true,
+          bypass(req) {
+            if (isNavigationRequest(req)) return '/index.html';
+            return null;
+          },
+        },
       ])
     ),
   },

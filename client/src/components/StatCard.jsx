@@ -1,30 +1,35 @@
-const ACCENTS = {
-  default: { color: '#a5b0ff', bg: 'rgba(92,103,255,.1)',  border: 'rgba(92,103,255,.2)'  },
-  green:   { color: '#34d399', bg: 'rgba(52,211,153,.1)',  border: 'rgba(52,211,153,.2)'  },
-  amber:   { color: '#fbbf24', bg: 'rgba(251,191,36,.1)',  border: 'rgba(251,191,36,.2)'  },
-  red:     { color: '#f87171', bg: 'rgba(248,113,113,.1)', border: 'rgba(248,113,113,.2)' },
-  cyan:    { color: '#22d3ee', bg: 'rgba(34,211,238,.1)',  border: 'rgba(34,211,238,.2)'  },
-};
+export default function StatCard({ label, value, hint, accent = 'default', icon: Icon, trend }) {
+  const accentMap = {
+    default: { bg: '#EFF6FF', icon: '#2563EB' },
+    green:   { bg: '#F0FDF4', icon: '#16A34A' },
+    amber:   { bg: '#FFFBEB', icon: '#D97706' },
+    red:     { bg: '#FEF2F2', icon: '#DC2626' },
+    purple:  { bg: '#F5F3FF', icon: '#7C3AED' },
+    cyan:    { bg: '#ECFEFF', icon: '#0891B2' },
+  };
+  const colors = accentMap[accent] || accentMap.default;
 
-export default function StatCard({ label, value, hint, accent = 'default', icon: Icon }) {
-  const a = ACCENTS[accent] || ACCENTS.default;
   return (
-    <div className="rounded-2xl p-5 transition-all hover:-translate-y-0.5"
-      style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-medium text-slate-500 mb-2">{label}</p>
-          <p className="text-3xl font-black text-white tabular-nums">{value ?? '—'}</p>
-          {hint && <p className="text-xs text-slate-500 mt-1">{hint}</p>}
-        </div>
+    <div className="rounded-2xl p-5 flex flex-col gap-3 transition-all hover:shadow-lifted"
+      style={{ background: 'var(--surface)', border: '1px solid var(--border)', boxShadow: '0 1px 3px rgba(0,0,0,.05)' }}>
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-3)' }}>{label}</p>
         {Icon && (
-          <div className="h-10 w-10 rounded-xl flex items-center justify-center shrink-0"
-            style={{ background: a.bg, border: `1px solid ${a.border}` }}>
-            <Icon size={18} color={a.color}/>
+          <div className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: colors.bg }}>
+            <Icon size={15} color={colors.icon}/>
           </div>
         )}
-        {!Icon && (
-          <div className="h-1 w-10 rounded-full mt-1" style={{ background: a.color, opacity: 0.6 }}/>
+      </div>
+      <p className="text-3xl font-black tabular-nums" style={{ color: 'var(--text)', letterSpacing: '-0.03em' }}>
+        {typeof value === 'number' ? value.toLocaleString() : (value ?? '—')}
+      </p>
+      <div className="flex items-center justify-between min-h-[16px]">
+        {hint && <p className="text-xs" style={{ color: 'var(--text-3)' }}>{hint}</p>}
+        {trend && (
+          <span className="text-xs font-semibold px-2 py-0.5 rounded-full"
+            style={{ background: '#F0FDF4', color: '#16A34A' }}>
+            {trend}
+          </span>
         )}
       </div>
     </div>

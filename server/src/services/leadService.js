@@ -188,5 +188,18 @@ export function dashboardSummary(userId) {
   const campaigns = db.prepare(`SELECT id, name, channel, status, created_at, updated_at, stats FROM campaigns WHERE user_id = ? ORDER BY updated_at DESC LIMIT 8`).all(userId)
     .map((row) => ({ ...row, stats: jsonParse(row.stats, {}) }));
   const sourceStats = db.prepare(`SELECT source, COUNT(*) as count FROM leads WHERE user_id = ? GROUP BY source`).all(userId);
-  return { totalLeads: totals.total || 0, avgScore: Math.round(totals.avgScore || 0), distribution, recentLeads, campaigns, sourceStats };
+
+  let emailsSent = 0, emailsOpened = 0, emailsReplied = 0;
+  try {
+    const emailStats = db.prepare(`SELECT
+      COUNT(*) as sent,
+      SUM(CASE WHEN opened_at IS NOT NULL THEN 1 ELSE 0 END) as opened,
+      SUM(CASE WHEN replied_at IS NOT NULL THEN 1 ELSE 0 END) as replied
+      FROM email_logs WHERE user_id = ? AND status = 'sent'`).get(userId);
+    emailsSent = emailStats?.sent || 0;
+    emailsOpened = emailStats?.opened || 0;
+    emailsReplied = emailStats?.replied || 0;
+  } catch {}
+
+  return { totalLeads: totals.total || 0, avgScore: Math.round(totals.avgScore || 0), distribution, recentLeads, campaigns, sourceStats, emailsSent, emailsOpened, emailsReplied };
 }

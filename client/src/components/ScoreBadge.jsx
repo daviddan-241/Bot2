@@ -1,9 +1,9 @@
 export default function ScoreBadge({ score = 0, label }) {
   const resolved = label || (score >= 80 ? 'Hot' : score >= 50 ? 'Warm' : 'Cold');
   const styles = {
-    Hot:  { background: 'rgba(16,185,129,.12)', color: '#34d399', border: '1px solid rgba(16,185,129,.2)' },
-    Warm: { background: 'rgba(245,158,11,.12)', color: '#fbbf24', border: '1px solid rgba(245,158,11,.2)' },
-    Cold: { background: 'rgba(148,163,184,.1)', color: '#94a3b8', border: '1px solid rgba(148,163,184,.15)' },
+    Hot:  { background: '#F0FDF4', color: '#15803d', border: '1px solid #BBF7D0' },
+    Warm: { background: '#FFFBEB', color: '#b45309', border: '1px solid #FDE68A' },
+    Cold: { background: '#F8FAFC', color: '#64748B', border: '1px solid #E2E8F0' },
   };
   const s = styles[resolved] || styles.Cold;
   return (
