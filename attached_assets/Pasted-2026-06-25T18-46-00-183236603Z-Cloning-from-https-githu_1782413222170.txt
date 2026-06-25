@@ -1,0 +1,25 @@
+2026-06-25T18:46:00.183236603Z ==> Cloning from https://github.com/daviddan-241/Bot2
+2026-06-25T18:46:00.610248132Z ==> Checking out commit c03466d3cbae461d898a158bf44bd29dab3fbcaa in branch main
+2026-06-25T18:46:06.249587433Z ==> Requesting Node.js version 20
+2026-06-25T18:46:06.430314644Z ==> Using Node.js version 20.20.2 via /opt/render/project/src/.node-version
+2026-06-25T18:46:06.430331915Z ==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+2026-06-25T18:46:06.430425557Z ==> Installing Node.js version 20.20.2...
+2026-06-25T18:46:07.339988252Z ==> Running build command 'npm install --include=dev && npm run build'...
+2026-06-25T18:46:00.183236603Z ==> Cloning from https://github.com/daviddan-241/Bot2
+2026-06-25T18:46:00.610248132Z ==> Checking out commit c03466d3cbae461d898a158bf44bd29dab3fbcaa in branch main
+2026-06-25T18:46:06.249587433Z ==> Requesting Node.js version 20
+2026-06-25T18:46:06.430314644Z ==> Using Node.js version 20.20.2 via /opt/render/project/src/.node-version
+2026-06-25T18:46:06.430331915Z ==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+2026-06-25T18:46:06.430425557Z ==> Installing Node.js version 20.20.2...
+2026-06-25T18:46:07.339988252Z ==> Running build command 'npm install --include=dev && npm run build'...
+2026-06-25T18:47:18.329038039Z npm error Exit handler never called!
+2026-06-25T18:47:18.32906464Z npm error This is an error with npm itself. Please report this error at:
+2026-06-25T18:47:18.329104891Z npm error   <https://github.com/npm/cli/issues>
+2026-06-25T18:47:18.329359346Z npm error A complete log of this run can be found in: /opt/render/.cache/_logs/2026-06-25T18_46_07_402Z-debug-0.log
+2026-06-25T18:47:18.445937851Z 
+2026-06-25T18:47:18.445986272Z > leadflow-ai@1.0.0 build
+2026-06-25T18:47:18.445995743Z > vite build --config client/vite.config.js
+2026-06-25T18:47:18.446001843Z 
+2026-06-25T18:47:18.450546321Z sh: 1: vite: not found
+2026-06-25T18:47:18.49177024Z ==> Build failed 😞
+2026-06-25T18:47:18.491786111Z ==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys

@@ -2,7 +2,7 @@ services:
   - type: web
     name: flowai
     env: node
-    buildCommand: npm run render-build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /health
     autoDeploy: true
