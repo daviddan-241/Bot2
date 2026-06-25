@@ -32,16 +32,16 @@ function siteEmailConfig(userId) {
       from: cfg.smtpFrom || `FlowAI <${cfg.smtpUser}>`,
     };
   }
-  if (env.smtpHost && env.smtpUser && env.smtpPass) {
+  if (env.smtpUser && env.smtpPass) {
     return {
       source: 'env:smtp',
       method: 'smtp',
-      host: env.smtpHost,
-      port: env.smtpPort,
-      secure: env.smtpSecure,
+      host: env.smtpHost || 'smtp.gmail.com',
+      port: env.smtpPort || 587,
+      secure: env.smtpSecure || false,
       user: env.smtpUser,
       pass: env.smtpPass,
-      from: env.smtpFrom,
+      from: env.smtpFrom || `FlowAI <${env.smtpUser}>`,
     };
   }
   return { source: 'none', method: 'none' };

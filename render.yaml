@@ -21,8 +21,23 @@ services:
         value: 2500
       - key: CORS_ORIGIN
         value: https://flowai.onrender.com
+      # Email: Gmail App Password (myaccount.google.com → Security → App Passwords)
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      # AI: Groq free (console.groq.com)
       - key: GROQ_API_KEY
         sync: false
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
+      # Lead Discovery: free tiers
       - key: SERPER_API_KEY
         sync: false
       - key: BRAVE_SEARCH_API_KEY
