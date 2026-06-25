@@ -16,9 +16,10 @@ const DEFAULT_SUGGESTIONS = [
   'Find 10 restaurants in California — create campaigns and generate proposals for all',
   'Find 15 dental clinics in London needing a website, email them all',
   'Find urgent leads in Dubai, generate proposal for each and send',
+  'Find angel investors and VCs in Silicon Valley for my SaaS startup pitch',
+  'Find recently funded startups in London that need marketing services',
   'Check for replies and follow up with anyone who hasn\'t responded',
   'Score all my current leads and tell me who to contact first',
-  'Write a cold email for my hottest lead',
 ];
 
 function PipelineResult({ data }) {
@@ -222,10 +223,12 @@ export default function AIPage() {
     const l = text.toLowerCase();
     const findWords = ['find', 'discover', 'search', 'get', 'locate', 'look for'];
     const targetWords = ['lead', 'client', 'business', 'restaurant', 'clinic', 'shop', 'company', 'startup', 'agency', 'store', 'hotel', 'firm', 'dentist', 'plumber', 'gym', 'salon', 'school', 'lawyer', 'accountant', 'contractor', 'electrician'];
-    const hasFindWord = findWords.some(w => l.includes(w));
-    const hasTarget   = targetWords.some(w => l.includes(w));
-    const hasFollowUp = l.includes('follow up') || l.includes('follow-up') || l.includes('check replies') || l.includes('monitor') || l.includes('who replied');
-    return (hasFindWord && hasTarget) || hasFollowUp;
+    const fundingWords = ['investor', 'vc', 'venture capital', 'angel investor', 'seed', 'funding', 'fundraise', 'pitch', 'raise capital', 'funded startup', 'recently funded'];
+    const hasFindWord  = findWords.some(w => l.includes(w));
+    const hasTarget    = targetWords.some(w => l.includes(w));
+    const hasFunding   = fundingWords.some(w => l.includes(w));
+    const hasFollowUp  = l.includes('follow up') || l.includes('follow-up') || l.includes('check replies') || l.includes('monitor') || l.includes('who replied');
+    return (hasFindWord && hasTarget) || hasFunding || hasFollowUp;
   };
 
   const isFollowUpCommand = (text) => {

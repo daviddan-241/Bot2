@@ -213,8 +213,8 @@ export default function ConnectionsPage() {
               <input className="input" placeholder="http://localhost:11434/api/generate"
                 value={ai.ollamaUrl || ''} onChange={e => set('ai', { ollamaUrl: e.target.value })}/>
             </Field>
-            <Field label="Ollama model">
-              <input className="input" placeholder="llama3"
+            <Field label="Ollama model" hint="~630 MB">
+              <input className="input" placeholder="llama3.2:1b  ← run: ollama pull llama3.2:1b"
                 value={ai.ollamaModel || ''} onChange={e => set('ai', { ollamaModel: e.target.value })}/>
             </Field>
           </div>

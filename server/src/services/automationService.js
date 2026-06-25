@@ -45,7 +45,15 @@ function parseCommand(command) {
   const sendSignals = ['send', 'email them', 'send now', 'send email', 'email all', 'email them all'];
   const shouldSendEmails = sendSignals.some(s => lower.includes(s));
 
-  return { niche, location, limit, urgencyMode, shouldCreateCampaign, shouldGenerateProposals, shouldSendEmails };
+  const fundingSignals = ['investor', 'investors', 'vc', 'venture capital', 'angel investor', 'seed', 'funding', 'fundraise', 'fundraising', 'pitch', 'raise money', 'raise capital', 'backed startup', 'recently funded', 'funded startup'];
+  const isFundingSearch = fundingSignals.some(s => lower.includes(s));
+  if (isFundingSearch) {
+    const investorNicheMap = { vc: 'venture capital firms', angel: 'angel investors', seed: 'seed stage investors', default: 'investors and venture capitalists' };
+    const resolvedNiche = lower.includes('angel') ? investorNicheMap.angel : lower.includes('seed') ? investorNicheMap.seed : lower.includes('vc') ? investorNicheMap.vc : investorNicheMap.default;
+    return { niche: resolvedNiche, location, limit, urgencyMode, shouldCreateCampaign: true, shouldGenerateProposals: true, shouldSendEmails, isFundingSearch: true };
+  }
+
+  return { niche, location, limit, urgencyMode, shouldCreateCampaign, shouldGenerateProposals, shouldSendEmails, isFundingSearch: false };
 }
 
 async function generateProposalForLead(userId, lead, userContext = '') {
