@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 const API_ROUTES = [
   '/health', '/login', '/register', '/me', '/logout',
   '/dashboard', '/leads', '/ai', '/campaigns',
-  '/whatsapp', '/email', '/connections', '/mvp', '/scraper',
+  '/whatsapp', '/email', '/connections', '/mvp', '/scraper', '/anon',
 ];
 
 function isNavigationRequest(req) {

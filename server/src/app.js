@@ -10,6 +10,7 @@ import { apiLimiter } from './middleware/security.js';
 import { authRequired } from './middleware/auth.js';
 import { notFound, errorHandler } from './middleware/error.js';
 import authRoutes from './routes/authRoutes.js';
+import anonRoutes from './routes/anonRoutes.js';
 import leadRoutes from './routes/leadRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
 import campaignRoutes from './routes/campaignRoutes.js';
@@ -42,6 +43,7 @@ app.use(express.json({ limit: '1mb' }));
 app.use(apiLimiter);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok', name: 'FlowAI API', time: new Date().toISOString() }));
+app.use('/anon', anonRoutes);
 app.use('/', authRoutes);
 app.use('/dashboard', authRequired, dashboardRoutes);
 app.use('/leads', authRequired, leadRoutes);

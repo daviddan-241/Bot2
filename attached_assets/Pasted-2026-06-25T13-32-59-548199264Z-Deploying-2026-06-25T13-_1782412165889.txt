@@ -1,0 +1,50 @@
+2026-06-25T13:32:59.548199264Z ==> Deploying...
+2026-06-25T13:32:59.649474789Z ==> Setting WEB_CONCURRENCY=1 by default, based on available CPUs in the instance
+2026-06-25T13:33:06.675058302Z ==> Running 'npm start'
+2026-06-25T13:33:07.878397752Z 
+2026-06-25T13:33:07.878432493Z > leadflow-ai@1.0.0 start
+2026-06-25T13:33:07.878438023Z > node server/src/server.js
+2026-06-25T13:33:07.878441163Z 
+2026-06-25T13:33:08.183117714Z node:internal/modules/esm/resolve:215
+2026-06-25T13:33:08.183143095Z   const resolvedOption = FSLegacyMainResolve(packageJsonUrlString, packageConfig.main, baseStringified);
+2026-06-25T13:33:08.183149295Z                          ^
+2026-06-25T13:33:08.183152225Z 
+2026-06-25T13:33:08.183155615Z Error: Cannot find package '/opt/render/project/src/node_modules/express/index.js' imported from /opt/render/project/src/server/src/app.js
+2026-06-25T13:33:08.183159446Z     at legacyMainResolve (node:internal/modules/esm/resolve:215:26)
+2026-06-25T13:33:08.183163115Z     at packageResolve (node:internal/modules/esm/resolve:860:14)
+2026-06-25T13:33:08.183166436Z     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+2026-06-25T13:33:08.183169586Z     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+2026-06-25T13:33:08.183172016Z     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+2026-06-25T13:33:08.183174436Z     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+2026-06-25T13:33:08.183176456Z     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+2026-06-25T13:33:08.183179166Z     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+2026-06-25T13:33:08.183181096Z     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+2026-06-25T13:33:08.183183146Z   code: 'ERR_MODULE_NOT_FOUND'
+2026-06-25T13:33:08.183185226Z }
+2026-06-25T13:33:08.183187126Z 
+2026-06-25T13:33:08.183189126Z Node.js v20.20.2
+2026-06-25T13:33:09.870791683Z ==> Exited with status 1
+2026-06-25T13:33:09.872657062Z ==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+2026-06-25T13:33:14.022548706Z ==> Running 'npm start'
+2026-06-25T13:33:15.126950162Z 
+2026-06-25T13:33:15.126975572Z > leadflow-ai@1.0.0 start
+2026-06-25T13:33:15.126983152Z > node server/src/server.js
+2026-06-25T13:33:15.126985913Z 
+2026-06-25T13:33:15.518545602Z node:internal/modules/esm/resolve:215
+2026-06-25T13:33:15.518594613Z   const resolvedOption = FSLegacyMainResolve(packageJsonUrlString, packageConfig.main, baseStringified);
+2026-06-25T13:33:15.518606354Z                          ^
+2026-06-25T13:33:15.518609623Z 
+2026-06-25T13:33:15.518613834Z Error: Cannot find package '/opt/render/project/src/node_modules/express/index.js' imported from /opt/render/project/src/server/src/app.js
+2026-06-25T13:33:15.518618364Z     at legacyMainResolve (node:internal/modules/esm/resolve:215:26)
+2026-06-25T13:33:15.518622634Z     at packageResolve (node:internal/modules/esm/resolve:860:14)
+2026-06-25T13:33:15.518625764Z     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+2026-06-25T13:33:15.518628574Z     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+2026-06-25T13:33:15.518631264Z     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+2026-06-25T13:33:15.518633874Z     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+2026-06-25T13:33:15.518636624Z     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+2026-06-25T13:33:15.518640284Z     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+2026-06-25T13:33:15.518643295Z     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+2026-06-25T13:33:15.518646304Z   code: 'ERR_MODULE_NOT_FOUND'
+2026-06-25T13:33:15.518649555Z }
+2026-06-25T13:33:15.518652255Z 
+2026-06-25T13:33:15.518654955Z Node.js v20.20.2
