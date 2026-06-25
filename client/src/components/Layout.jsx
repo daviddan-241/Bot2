@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { BarChart3, Bot, Code2, Megaphone, Search, Settings, UsersRound, LogOut, Zap } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { BarChart3, Bot, Code2, Megaphone, Search, Settings, UsersRound, LogOut, Zap, WifiOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
 import Logo from './Logo.jsx';
 
@@ -24,6 +25,15 @@ const TAB_BAR = [
 export default function Layout({ children }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const on = () => setIsOnline(true);
+    const off = () => setIsOnline(false);
+    window.addEventListener('online', on);
+    window.addEventListener('offline', off);
+    return () => { window.removeEventListener('online', on); window.removeEventListener('offline', off); };
+  }, []);
 
   const doLogout = () => { logout(); navigate('/login'); };
 
@@ -33,6 +43,14 @@ export default function Layout({ children }) {
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100dvh', overscrollBehavior: 'none' }}>
+
+      {/* ── Offline banner ── */}
+      {!isOnline && (
+        <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-2 py-2 text-xs font-semibold"
+          style={{ background: '#FEF3C7', color: '#92400E', paddingTop: 'calc(8px + env(safe-area-inset-top, 0px))' }}>
+          <WifiOff size={13}/> You're offline — cached data shown
+        </div>
+      )}
 
       {/* ── Desktop Sidebar ── */}
       <aside className="fixed left-0 top-0 bottom-0 z-40 hidden lg:flex flex-col w-60"

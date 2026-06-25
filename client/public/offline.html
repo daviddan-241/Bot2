@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>FlowAI — Offline</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%; background: #F8FAFC; color: #0F172A;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    .card {
+      text-align: center; padding: 40px 32px; max-width: 340px;
+      background: white; border-radius: 24px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .icon { font-size: 48px; margin-bottom: 16px; }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    p { font-size: 15px; color: #64748B; line-height: 1.5; margin-bottom: 24px; }
+    button {
+      background: #2563EB; color: white; border: none;
+      padding: 12px 28px; border-radius: 12px; font-size: 15px;
+      font-weight: 600; cursor: pointer; width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">📶</div>
+    <h1>You're offline</h1>
+    <p>FlowAI needs a connection to find leads and run outreach. Your cached data is still available.</p>
+    <button onclick="location.reload()">Try again</button>
+  </div>
+</body>
+</html>
