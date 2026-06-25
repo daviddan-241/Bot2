@@ -1,22 +1,32 @@
-import { useEffect, useRef, useState } from 'react';
-import { Bot, Send, Sparkles, Users, Zap, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { Bot, Send, Sparkles, Users, Zap, CheckCircle2, AlertCircle, Settings2, ChevronDown, ChevronUp, Mail, RefreshCw, FileText } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { api } from '../utils/api.js';
 
-const SUGGESTIONS = [
-  'Find 10 restaurants in Lagos that urgently need a website',
-  'Find dental clinics in London ready to buy — create a campaign',
-  'Write a cold email for my hottest lead',
-  'Generate an MVP proposal for a food delivery app',
+const PIPELINE_STEPS = [
+  { id: 'search',    label: '🔍 Searching real businesses…',        ms: 0    },
+  { id: 'score',     label: '🎯 AI-scoring every lead…',            ms: 5000 },
+  { id: 'campaign',  label: '📧 Creating campaign…',               ms: 10000 },
+  { id: 'proposals', label: '📝 Generating proposals…',            ms: 15000 },
+  { id: 'email',     label: '✉️  Queueing outreach emails…',       ms: 20000 },
+  { id: 'done',      label: '✅ Pipeline complete!',               ms: 25000 },
+];
+
+const DEFAULT_SUGGESTIONS = [
+  'Find 10 restaurants in California — create campaigns and generate proposals for all',
+  'Find 15 dental clinics in London needing a website, email them all',
+  'Find urgent leads in Dubai, generate proposal for each and send',
+  'Check for replies and follow up with anyone who hasn\'t responded',
   'Score all my current leads and tell me who to contact first',
-  'Find 20 tech startups in Dubai needing digital marketing',
+  'Write a cold email for my hottest lead',
 ];
 
 function PipelineResult({ data }) {
   if (!data) return null;
   return (
     <div className="mt-3 rounded-2xl overflow-hidden" style={{ background: 'var(--bg)', border: '1px solid var(--border)' }}>
-      <div className="px-4 py-3 flex items-center gap-2" style={{ background: 'var(--surface)', borderBottom: '1px solid var(--border)' }}>
-        <CheckCircle2 size={14} color="#16A34A"/>
+      <div className="px-4 py-2.5 flex items-center gap-2" style={{ background: 'var(--surface)', borderBottom: '1px solid var(--border)' }}>
+        <CheckCircle2 size={13} color="#16A34A"/>
         <span className="text-xs font-bold" style={{ color: 'var(--text)' }}>Auto-pipeline completed</span>
       </div>
       <div className="p-4 space-y-3">
@@ -26,11 +36,9 @@ function PipelineResult({ data }) {
               <Users size={14} color="#2563EB"/>
             </div>
             <div>
-              <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
-                {data.leadsFound} leads found
-              </p>
+              <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>{data.leadsFound} leads found & saved</p>
               <p className="text-xs" style={{ color: 'var(--text-3)' }}>
-                {data.hotLeads} Hot · {data.warmLeads} Warm · {data.coldLeads} Cold
+                🔥 {data.hotLeads} Hot · 🌡️ {data.warmLeads} Warm · ❄️ {data.coldLeads} Cold
               </p>
             </div>
           </div>
@@ -38,18 +46,54 @@ function PipelineResult({ data }) {
         {data.campaignName && (
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#F0FDF4' }}>
-              <CheckCircle2 size={14} color="#16A34A"/>
+              <Mail size={14} color="#16A34A"/>
             </div>
             <div>
-              <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
-                Campaign "{data.campaignName}" created
-              </p>
+              <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>Campaign "{data.campaignName}"</p>
               <p className="text-xs" style={{ color: 'var(--text-3)' }}>
-                {data.emailsQueued ?? 0} emails queued · Connect Gmail to send
+                {data.emailsSent > 0 ? `${data.emailsSent} emails sent` : `${data.emailsQueued ?? 0} emails queued`}
               </p>
             </div>
           </div>
         )}
+        {data.proposalsGenerated > 0 && (
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#F5F3FF' }}>
+              <FileText size={14} color="#7C3AED"/>
+            </div>
+            <div>
+              <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>{data.proposalsGenerated} proposals generated</p>
+              <p className="text-xs" style={{ color: 'var(--text-3)' }}>Saved to each lead record</p>
+            </div>
+          </div>
+        )}
+        {data.followUps > 0 && (
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#FFFBEB' }}>
+              <RefreshCw size={14} color="#D97706"/>
+            </div>
+            <div>
+              <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>{data.followUps} follow-ups sent</p>
+              <p className="text-xs" style={{ color: 'var(--text-3)' }}>To leads with no reply in 3+ days</p>
+            </div>
+          </div>
+        )}
+        <div className="pt-1 flex gap-2">
+          <Link to="/leads" className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
+            style={{ background: 'var(--brand-light)', color: 'var(--brand)', border: '1px solid rgba(37,99,235,.2)' }}>
+            View leads →
+          </Link>
+          {data.campaignId && (
+            <Link to="/campaigns" className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
+              style={{ background: 'var(--surface-2)', color: 'var(--text-2)', border: '1px solid var(--border)' }}>
+              View campaign →
+            </Link>
+          )}
+          <Link to="/kanban" className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
+            style={{ background: 'var(--surface-2)', color: 'var(--text-2)', border: '1px solid var(--border)' }}>
+            Pipeline board →
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -58,72 +102,142 @@ function PipelineResult({ data }) {
 function Message({ role, content, provider, pipeline, isNew }) {
   const isUser = role === 'user';
   return (
-    <div className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'} ${isNew ? 'animate-fade-up' : ''}`}>
+    <div className={`flex gap-2.5 ${isUser ? 'justify-end' : 'justify-start'} ${isNew ? 'animate-fade-up' : ''}`}>
       {!isUser && (
-        <div className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
+        <div className="h-7 w-7 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
           style={{ background: 'var(--brand)', flexShrink: 0 }}>
-          <Bot size={14} color="white"/>
+          <Bot size={13} color="white"/>
         </div>
       )}
-      <div className={`max-w-[85%] ${isUser ? 'items-end' : 'items-start'} flex flex-col gap-2`}>
-        <div className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${isUser ? 'rounded-br-sm' : 'rounded-bl-sm'}`}
+      <div className={`max-w-[86%] ${isUser ? 'items-end' : 'items-start'} flex flex-col gap-2`}>
+        <div className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${isUser ? 'rounded-br-md' : 'rounded-bl-md'}`}
           style={isUser
             ? { background: 'var(--brand)', color: 'white' }
-            : { background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-2)' }
+            : { background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text)', boxShadow: '0 1px 3px rgba(0,0,0,.04)' }
           }>
           <p className="whitespace-pre-wrap">{content}</p>
           {provider && !isUser && (
-            <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--text-3)' }}>
-              via {provider}
-            </p>
+            <p className="mt-1.5 text-[10px] font-semibold uppercase tracking-wider opacity-50">via {provider}</p>
           )}
         </div>
         {pipeline && <PipelineResult data={pipeline}/>}
       </div>
-      {isUser && (
-        <div className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold text-white"
-          style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', color: 'var(--text-2)', flexShrink: 0 }}>
-          Me
-        </div>
-      )}
+    </div>
+  );
+}
+
+function TypingDots({ step }) {
+  return (
+    <div className="flex gap-2.5 justify-start animate-fade-up">
+      <div className="h-7 w-7 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
+        style={{ background: 'var(--brand)', flexShrink: 0 }}>
+        <Bot size={13} color="white"/>
+      </div>
+      <div className="rounded-2xl rounded-bl-md px-4 py-2.5"
+        style={{ background: 'var(--surface)', border: '1px solid var(--border)', boxShadow: '0 1px 3px rgba(0,0,0,.04)' }}>
+        {step ? (
+          <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-2)' }}>
+            <Zap size={11} color="var(--brand)" className="animate-pulse shrink-0"/>
+            <span>{step}</span>
+          </div>
+        ) : (
+          <div className="flex gap-1.5 items-center h-4">
+            {[0,1,2].map(i => (
+              <div key={i} className="h-1.5 w-1.5 rounded-full"
+                style={{ background: 'var(--brand)', animation: `pulseDot 1.4s ease-in-out ${i * 0.2}s infinite` }}/>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 export default function AIPage() {
-  const [providers, setProviders] = useState([]);
-  const [messages, setMessages] = useState([
-    {
-      role: 'assistant',
-      content: "Hi! I'm FlowAI — your AI-powered lead engine.\n\nJust tell me what you need and I'll handle everything:\n\n• \"Find 10 restaurants in Lagos that need a website\" → I'll search, score, and create a campaign\n• \"Write outreach for my hottest lead\" → personalized email ready\n• \"Generate MVP proposal for a food delivery app\" → full proposal\n\nWhat would you like to do?",
-    }
-  ]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [pipelineActive, setPipelineActive] = useState(false);
-  const bottomRef = useRef(null);
-  const inputRef = useRef(null);
+  const [providers, setProviders]       = useState([]);
+  const [messages, setMessages]         = useState([{
+    role: 'assistant',
+    content: "Hi! I'm FlowAI — just tell me what you need and I handle everything automatically.\n\nYou can say:\n• \"Find 10 restaurants in California, create campaigns and generate proposals for all\"\n• \"Find dental clinics in London, email them all\"\n• \"Check for replies and follow up\"\n\nWhat do you work on? (Tell me once using the ✏️ button and I'll use it in every task)",
+  }]);
+  const [input, setInput]               = useState('');
+  const [loading, setLoading]           = useState(false);
+  const [pipelineStep, setPipelineStep] = useState('');
+  const [userContext, setUserContext]   = useState(() => localStorage.getItem('flowai_context') || '');
+  const [editingCtx, setEditingCtx]     = useState(false);
+  const [draftCtx, setDraftCtx]         = useState('');
+  const [kbOffset, setKbOffset]         = useState(0);
+  const bottomRef   = useRef(null);
+  const inputRef    = useRef(null);
+  const containerRef = useRef(null);
+  const stepTimer   = useRef(null);
 
   useEffect(() => {
-    api('/ai/providers/health').then(d => setProviders(d.providers)).catch(() => {});
+    api('/ai/providers/health').then(d => setProviders(d.providers || [])).catch(() => {});
   }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const update = () => {
+      const kh = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      setKbOffset(kh);
+      if (kh > 0) {
+        setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+      }
+    };
+    vv.addEventListener('resize', update);
+    vv.addEventListener('scroll', update);
+    return () => { vv.removeEventListener('resize', update); vv.removeEventListener('scroll', update); };
+  }, []);
+
+  function saveContext() {
+    localStorage.setItem('flowai_context', draftCtx);
+    setUserContext(draftCtx);
+    setEditingCtx(false);
+  }
+
+  function startStepAnimation(hasPipeline) {
+    let i = 0;
+    const steps = hasPipeline ? PIPELINE_STEPS : [];
+    if (!steps.length) return;
+    const tick = () => {
+      if (i >= steps.length) return;
+      setPipelineStep(steps[i].label);
+      i++;
+      if (i < steps.length) stepTimer.current = setTimeout(tick, 5000);
+    };
+    tick();
+  }
+
+  function clearSteps() {
+    if (stepTimer.current) clearTimeout(stepTimer.current);
+    setPipelineStep('');
+  }
+
   const isPipelineCommand = (text) => {
-    const lower = text.toLowerCase();
-    return (lower.includes('find') || lower.includes('discover') || lower.includes('search') || lower.includes('get')) &&
-      (lower.includes('lead') || lower.includes('client') || lower.includes('business') || lower.includes('restaurant') ||
-       lower.includes('clinic') || lower.includes('shop') || lower.includes('company') || lower.includes('startup') ||
-       lower.includes('agency') || lower.includes('store') || lower.includes('hotel') || lower.includes('firm'));
+    const l = text.toLowerCase();
+    const findWords = ['find', 'discover', 'search', 'get', 'locate', 'look for'];
+    const targetWords = ['lead', 'client', 'business', 'restaurant', 'clinic', 'shop', 'company', 'startup', 'agency', 'store', 'hotel', 'firm', 'dentist', 'plumber', 'gym', 'salon', 'school', 'lawyer', 'accountant', 'contractor', 'electrician'];
+    const hasFindWord = findWords.some(w => l.includes(w));
+    const hasTarget   = targetWords.some(w => l.includes(w));
+    const hasFollowUp = l.includes('follow up') || l.includes('follow-up') || l.includes('check replies') || l.includes('monitor') || l.includes('who replied');
+    return (hasFindWord && hasTarget) || hasFollowUp;
+  };
+
+  const isFollowUpCommand = (text) => {
+    const l = text.toLowerCase();
+    return l.includes('follow up') || l.includes('follow-up') || l.includes('check replies') || l.includes('monitor response') || l.includes('who replied') || l.includes('who responded');
   };
 
   async function send(text) {
-    const content = text || input.trim();
-    if (!content) return;
-    const next = [...messages, { role: 'user', content, isNew: true }];
+    const content = (text || input).trim();
+    if (!content || loading) return;
+    const userMsg = { role: 'user', content, isNew: true };
+    const next = [...messages, userMsg];
     setMessages(next);
     setInput('');
     setLoading(true);
@@ -131,14 +245,23 @@ export default function AIPage() {
 
     try {
       if (isPipelineCommand(content)) {
-        setPipelineActive(true);
-        const pipelineMsg = { role: 'assistant', content: '🔍 Searching for real businesses... Scoring leads... This takes 15-30 seconds.', isNew: true };
-        setMessages([...next, pipelineMsg]);
-        try {
+        startStepAnimation(true);
+
+        if (isFollowUpCommand(content)) {
+          const data = await api('/ai/follow-up', { method: 'POST', body: { context: userContext } });
+          clearSteps();
+          setMessages([...next, {
+            role: 'assistant',
+            content: data.message,
+            pipeline: data.pipeline,
+            isNew: true,
+          }]);
+        } else {
           const data = await api('/ai/auto-pipeline', {
             method: 'POST',
-            body: { command: content }
+            body: { command: content, context: userContext },
           });
+          clearSteps();
           setMessages([...next, {
             role: 'assistant',
             content: data.message,
@@ -146,110 +269,132 @@ export default function AIPage() {
             pipeline: data.pipeline,
             isNew: true,
           }]);
-        } catch (pErr) {
-          const fallback = await api('/ai/chat', {
-            method: 'POST',
-            body: { messages: next.filter(m => m.role !== 'system').map(({ role, content }) => ({ role, content })) }
-          });
-          setMessages([...next, { role: 'assistant', content: fallback.message, provider: fallback.provider, isNew: true }]);
         }
-        setPipelineActive(false);
       } else {
+        const systemMsg = userContext
+          ? { role: 'system', content: `You are FlowAI, an AI assistant for lead generation and outreach. The user works in: ${userContext}. Always tailor advice and outreach to this context.` }
+          : { role: 'system', content: 'You are FlowAI, an AI assistant for lead generation, outreach, and business automation.' };
         const data = await api('/ai/chat', {
           method: 'POST',
-          body: { messages: next.filter(m => m.role !== 'system').map(({ role, content }) => ({ role, content })) }
+          body: { messages: [systemMsg, ...next.map(({ role, content }) => ({ role: role === 'assistant' ? 'assistant' : 'user', content }))] }
         });
         setMessages([...next, { role: 'assistant', content: data.message, provider: data.provider, isNew: true }]);
       }
     } catch (err) {
-      setMessages([...next, { role: 'assistant', content: `Error: ${err.message}`, isNew: true }]);
+      clearSteps();
+      setMessages([...next, { role: 'assistant', content: `Sorry, something went wrong: ${err.message}`, isNew: true }]);
     } finally {
       setLoading(false);
-      setPipelineActive(false);
+      clearSteps();
     }
   }
 
-  const onKey = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } };
-  const activeProvider = providers.find(p => ['online','configured'].includes(p.status));
+  const onKey = e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  };
+
+  const activeProvider = providers.find(p => ['online', 'configured'].includes(p.status));
+
+  const suggestions = userContext
+    ? [
+        `Find 10 clients needing help with ${userContext.split(' ').slice(0,3).join(' ')} — create campaigns and generate proposals`,
+        `Find urgent businesses in my area that need ${userContext.split(' ').slice(0,2).join(' ')} services`,
+        'Check for replies and follow up with anyone who hasn\'t responded',
+        'Score all my current leads and tell me who to contact first',
+        ...DEFAULT_SUGGESTIONS.slice(3),
+      ]
+    : DEFAULT_SUGGESTIONS;
 
   return (
-    <div className="flex flex-col" style={{ height: 'calc(100dvh - 140px)', maxHeight: 900 }}>
+    <div ref={containerRef}
+      className="flex flex-col"
+      style={{
+        height: 'calc(100dvh - 140px)',
+        maxHeight: 900,
+        paddingBottom: kbOffset > 0 ? Math.max(0, kbOffset - 72) : 0,
+        transition: 'padding-bottom 0.15s ease',
+      }}>
 
-      {/* Header */}
-      <div className="flex items-center justify-between pb-4 shrink-0">
-        <div>
-          <h1 className="text-xl font-black flex items-center gap-2" style={{ color: 'var(--text)', letterSpacing: '-0.02em' }}>
-            <div className="h-8 w-8 rounded-xl flex items-center justify-center" style={{ background: 'var(--brand)' }}>
-              <Bot size={16} color="white"/>
+      {/* Compact header */}
+      <div className="flex items-center gap-2 mb-3 shrink-0 flex-wrap">
+
+        {/* Context bar */}
+        <div className="flex-1 min-w-0">
+          {editingCtx ? (
+            <div className="flex items-center gap-2">
+              <input
+                autoFocus
+                className="input flex-1 text-sm h-9 py-0"
+                placeholder="What do you work on? e.g. 'web design for restaurants in Lagos'"
+                value={draftCtx}
+                onChange={e => setDraftCtx(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') saveContext(); if (e.key === 'Escape') setEditingCtx(false); }}
+              />
+              <button onClick={saveContext} className="btn-primary text-xs h-9 px-3 shrink-0">Save</button>
+              <button onClick={() => setEditingCtx(false)} className="btn-secondary text-xs h-9 px-3 shrink-0">✕</button>
             </div>
-            AI Assistant
-          </h1>
-          <p className="text-xs mt-0.5 ml-10" style={{ color: 'var(--text-3)' }}>
-            Say "find leads" to trigger the full auto-pipeline
-          </p>
+          ) : (
+            <button
+              onClick={() => { setDraftCtx(userContext); setEditingCtx(true); }}
+              className="flex items-center gap-2 rounded-xl px-3 h-9 w-full text-left transition-all"
+              style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+              <Settings2 size={13} color="var(--text-3)"/>
+              <span className="text-xs truncate flex-1" style={{ color: userContext ? 'var(--text)' : 'var(--text-3)' }}>
+                {userContext || 'What do you work on? Tap to set context…'}
+              </span>
+              <span className="text-[10px] font-bold shrink-0" style={{ color: 'var(--brand)' }}>✏️</span>
+            </button>
+          )}
         </div>
+
+        {/* Provider badge */}
         {activeProvider ? (
-          <div className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-semibold"
+          <div className="shrink-0 flex items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold"
             style={{ background: '#F0FDF4', border: '1px solid #BBF7D0', color: '#15803d' }}>
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: '#16A34A' }}/>
-            {activeProvider.provider} · Live
+            {activeProvider.provider}
           </div>
         ) : (
-          <div className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-semibold"
+          <Link to="/connections" className="shrink-0 flex items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold"
             style={{ background: '#FFFBEB', border: '1px solid #FDE68A', color: '#b45309' }}>
-            <AlertCircle size={12}/>
-            Add Groq key in Settings
-          </div>
+            <AlertCircle size={11}/>
+            Add API key
+          </Link>
         )}
       </div>
 
-      {/* Chat messages */}
-      <div className="flex-1 overflow-y-auto rounded-2xl p-4 space-y-4 mb-3"
-        style={{ background: 'var(--bg)', border: '1px solid var(--border)' }}>
+      {/* Messages area */}
+      <div
+        className="flex-1 overflow-y-auto rounded-2xl p-3 sm:p-4 space-y-3"
+        style={{
+          background: 'var(--bg)',
+          border: '1px solid var(--border)',
+          overscrollBehavior: 'contain',
+          WebkitOverflowScrolling: 'touch',
+        }}>
 
         {messages.map((m, i) => (
           <Message key={i} {...m} isNew={m.isNew && i === messages.length - 1}/>
         ))}
 
-        {loading && (
-          <div className="flex gap-3 justify-start">
-            <div className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0"
-              style={{ background: 'var(--brand)', flexShrink: 0 }}>
-              <Bot size={14} color="white"/>
-            </div>
-            <div className="rounded-2xl rounded-bl-sm px-4 py-3"
-              style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
-              {pipelineActive ? (
-                <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-2)' }}>
-                  <Zap size={12} color="var(--brand)" className="animate-pulse"/>
-                  Searching leads, scoring, creating campaign…
-                </div>
-              ) : (
-                <div className="flex gap-1.5 items-center h-5">
-                  {[0,1,2].map(i => (
-                    <div key={i} className="h-1.5 w-1.5 rounded-full"
-                      style={{ background: 'var(--brand)', animation: `pulseDot 1.4s ease-in-out ${i * 0.2}s infinite` }}/>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+        {loading && <TypingDots step={pipelineStep}/>}
         <div ref={bottomRef}/>
       </div>
 
-      {/* Suggestions */}
-      {messages.length === 1 && (
-        <div className="shrink-0 mb-3">
-          <p className="text-xs mb-2 px-1" style={{ color: 'var(--text-3)' }}>Try asking:</p>
-          <div className="flex gap-2 overflow-x-auto pb-1">
-            {SUGGESTIONS.map(s => (
+      {/* Suggestion chips */}
+      {messages.length === 1 && !loading && (
+        <div className="shrink-0 mt-2">
+          <p className="text-[11px] mb-1.5 px-1 font-medium" style={{ color: 'var(--text-3)' }}>Try:</p>
+          <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+            {suggestions.map(s => (
               <button key={s} onClick={() => send(s)}
-                className="shrink-0 text-xs rounded-xl px-3 py-2 transition-all whitespace-nowrap"
+                className="shrink-0 text-[11px] rounded-xl px-3 py-2 transition-all whitespace-nowrap font-medium"
                 style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-2)' }}
+                onTouchStart={e => { e.currentTarget.style.background = 'var(--brand-light)'; e.currentTarget.style.color = 'var(--brand)'; }}
+                onTouchEnd={e => { e.currentTarget.style.background = 'var(--surface)'; e.currentTarget.style.color = 'var(--text-2)'; }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--brand)'; e.currentTarget.style.color = 'var(--brand)'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text-2)'; }}>
-                {s}
+                {s.length > 55 ? s.slice(0, 55) + '…' : s}
               </button>
             ))}
           </div>
@@ -257,46 +402,35 @@ export default function AIPage() {
       )}
 
       {/* Input bar */}
-      <div className="shrink-0">
+      <div className="shrink-0 mt-2">
         <div className="flex gap-2 rounded-2xl p-2"
-          style={{ background: 'var(--surface)', border: '1px solid var(--border)', boxShadow: '0 1px 3px rgba(0,0,0,.05)' }}>
+          style={{ background: 'var(--surface)', border: '1px solid var(--border)', boxShadow: '0 1px 4px rgba(0,0,0,.06)' }}>
           <textarea
             ref={inputRef}
             rows={1}
-            className="flex-1 resize-none bg-transparent text-sm placeholder-[var(--text-3)] outline-none py-2 px-2 leading-relaxed"
-            style={{ maxHeight: 120, color: 'var(--text)' }}
-            placeholder="Ask FlowAI — find leads, write outreach, generate proposals…"
+            className="flex-1 resize-none bg-transparent text-sm placeholder-[var(--text-3)] outline-none px-2 py-2 leading-relaxed"
+            style={{ maxHeight: 100, color: 'var(--text)' }}
+            placeholder="Find leads, create campaigns, generate proposals, follow up…"
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={e => {
+              setInput(e.target.value);
+              e.target.style.height = 'auto';
+              e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px';
+            }}
             onKeyDown={onKey}
           />
           <button
             disabled={loading || !input.trim()}
             onClick={() => send()}
-            className="h-10 w-10 rounded-xl flex items-center justify-center shrink-0 self-end mb-0.5 transition-all disabled:opacity-30"
-            style={{ background: 'var(--brand)', boxShadow: '0 1px 2px rgba(37,99,235,.3)' }}>
+            className="h-10 w-10 rounded-xl flex items-center justify-center shrink-0 self-end transition-all disabled:opacity-30"
+            style={{ background: 'var(--brand)' }}>
             <Send size={16} color="white"/>
           </button>
         </div>
-        <p className="text-[10px] text-center mt-2" style={{ color: 'var(--text-3)' }}>
-          Powered by Groq (Llama 3.1 · free) · Rule engine fallback · Auto-pipeline enabled
+        <p className="text-[10px] text-center mt-1.5" style={{ color: 'var(--text-3)' }}>
+          Powered by Groq (free) · Real lead search · Auto-pipeline enabled
         </p>
       </div>
-
-      {/* Provider status */}
-      {providers.length > 0 && (
-        <div className="shrink-0 mt-2 flex gap-2 overflow-x-auto">
-          {providers.map(p => (
-            <div key={p.provider} className="shrink-0 flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] font-medium"
-              style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-3)' }}>
-              <span className="h-1.5 w-1.5 rounded-full" style={{
-                background: ['online','configured'].includes(p.status) ? '#16A34A' : '#94A3B8'
-              }}/>
-              {p.provider}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

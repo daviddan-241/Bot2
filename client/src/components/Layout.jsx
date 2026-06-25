@@ -14,11 +14,11 @@ const NAV = [
 ];
 
 const TAB_BAR = [
-  { to: '/app',       label: 'Home',    icon: BarChart3 },
+  { to: '/ai',        label: 'FlowAI',  icon: Bot },
   { to: '/leads',     label: 'Leads',   icon: UsersRound },
-  { to: '/ai',        label: 'AI',      icon: Bot },
-  { to: '/generate',  label: 'Build',   icon: Code2 },
-  { to: '/scraper',   label: 'Find',    icon: Search },
+  { to: '/kanban',    label: 'Pipeline',icon: Zap },
+  { to: '/campaigns', label: 'Outreach',icon: Megaphone },
+  { to: '/connections',label: 'Settings',icon: Settings },
 ];
 
 export default function Layout({ children }) {

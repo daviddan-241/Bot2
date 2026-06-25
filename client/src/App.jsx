@@ -11,6 +11,7 @@ import AIPage from './pages/AIPage.jsx';
 import ConnectionsPage from './pages/ConnectionsPage.jsx';
 import LandingPage from './pages/LandingPage.jsx';
 import MVPGeneratorPage from './pages/MVPGeneratorPage.jsx';
+import KanbanPage from './pages/KanbanPage.jsx';
 
 function Protected({ children }) {
   const { user, loading } = useAuth();
@@ -36,8 +37,9 @@ export default function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/app" element={<Protected><DashboardPage /></Protected>} />
-      <Route path="/dashboard" element={<Navigate to="/app" replace />} />
+      <Route path="/app" element={<Navigate to="/ai" replace />} />
+      <Route path="/dashboard" element={<Navigate to="/ai" replace />} />
+      <Route path="/kanban" element={<Protected><KanbanPage /></Protected>} />
       <Route path="/leads" element={<Protected><LeadsPage /></Protected>} />
       <Route path="/leads/:id" element={<Protected><LeadDetailPage /></Protected>} />
       <Route path="/scraper" element={<Protected><ScraperPage /></Protected>} />

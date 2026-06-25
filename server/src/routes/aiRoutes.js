@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { asyncHandler } from '../utils/http.js';
 import { generateMessage, scoreLead, analyzeCompany, chat, providerHealth } from '../services/aiService.js';
-import { runAutoPipeline, buildPipelineMessage } from '../services/automationService.js';
+import { runAutoPipeline, buildPipelineMessage, checkFollowUps } from '../services/automationService.js';
 
 const router = Router();
 
@@ -29,17 +29,35 @@ router.post('/analyze-company', asyncHandler(async (req, res) => {
 }));
 
 router.post('/chat', asyncHandler(async (req, res) => {
-  const schema = z.object({ messages: z.array(z.object({ role: z.enum(['user', 'assistant', 'system']).default('user'), content: z.string().max(8000) })).min(1) });
+  const schema = z.object({
+    messages: z.array(z.object({
+      role: z.enum(['user', 'assistant', 'system']).default('user'),
+      content: z.string().max(8000)
+    })).min(1)
+  });
   const input = schema.parse(req.body);
   res.json(await chat(req.user.id, input.messages));
 }));
 
 router.post('/auto-pipeline', asyncHandler(async (req, res) => {
-  const schema = z.object({ command: z.string().min(3).max(500) });
-  const { command } = schema.parse(req.body);
-  const results = await runAutoPipeline(req.user.id, command);
-  const message = buildPipelineMessage(command, results);
+  const schema = z.object({
+    command: z.string().min(3).max(500),
+    context: z.string().max(500).optional().default(''),
+  });
+  const { command, context } = schema.parse(req.body);
+  const results = await runAutoPipeline(req.user.id, command, context);
+  const message = buildPipelineMessage(command, results, context);
   res.json({ message, provider: 'auto-pipeline', pipeline: results });
+}));
+
+router.post('/follow-up', asyncHandler(async (req, res) => {
+  const schema = z.object({ context: z.string().max(500).optional().default('') });
+  const { context } = schema.parse(req.body);
+  const result = await checkFollowUps(req.user.id, context);
+  res.json({
+    message: result.message,
+    pipeline: { followUps: result.followUps, leadsFound: 0, hotLeads: 0, warmLeads: 0, coldLeads: 0 },
+  });
 }));
 
 export default router;
